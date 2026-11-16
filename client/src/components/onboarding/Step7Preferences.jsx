@@ -113,13 +113,13 @@ export const Step7Preferences = ({ initialData = {}, onNext, loading = false }) 
           Profiles violating your checked dealbreakers will automatically be filtered out of discovery.
         </p>
 
-        <div className="space-y-2.5 text-xs font-medium text-amber-950">
+        <div className="space-y-2.5 text-xs font-medium text-[#202622]">
           <label className="flex items-center gap-2.5 cursor-pointer">
             <input
               type="checkbox"
               checked={formData.noSmokingNonNegotiable}
               onChange={(e) => setFormData({ ...formData, noSmokingNonNegotiable: e.target.checked })}
-              className="rounded text-indigo-600 focus:ring-indigo-500 h-4 w-4"
+              className="rounded text-[#315C4C] focus:ring-[#315C4C] h-4 w-4"
             />
             <span>Must be a 100% non-smoker (Zero smoking in flat)</span>
           </label>
@@ -129,7 +129,7 @@ export const Step7Preferences = ({ initialData = {}, onNext, loading = false }) 
               type="checkbox"
               checked={formData.cleanlinessNonNegotiable}
               onChange={(e) => setFormData({ ...formData, cleanlinessNonNegotiable: e.target.checked })}
-              className="rounded text-indigo-600 focus:ring-indigo-500 h-4 w-4"
+              className="rounded text-[#315C4C] focus:ring-[#315C4C] h-4 w-4"
             />
             <span>Must clean dishes immediately & maintain clean common areas</span>
           </label>
@@ -139,7 +139,7 @@ export const Step7Preferences = ({ initialData = {}, onNext, loading = false }) 
               type="checkbox"
               checked={formData.noPetsNonNegotiable}
               onChange={(e) => setFormData({ ...formData, noPetsNonNegotiable: e.target.checked })}
-              className="rounded text-indigo-600 focus:ring-indigo-500 h-4 w-4"
+              className="rounded text-[#315C4C] focus:ring-[#315C4C] h-4 w-4"
             />
             <span>No pets allowed due to personal allergies or preferences</span>
           </label>
@@ -147,7 +147,7 @@ export const Step7Preferences = ({ initialData = {}, onNext, loading = false }) 
       </div>
 
       <div>
-        <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+        <label className="block text-xs font-semibold text-[#737B74] uppercase tracking-wide mb-1.5">
           Additional Notes or Expectations
         </label>
         <textarea
@@ -155,16 +155,16 @@ export const Step7Preferences = ({ initialData = {}, onNext, loading = false }) 
           value={formData.otherRequirements}
           onChange={(e) => setFormData({ ...formData, otherRequirements: e.target.value })}
           placeholder="Anything else you want potential flatmates to know before matching?"
-          className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
+          className="w-full rounded-lg border border-[#E5E7E2] p-3 text-sm text-[#202622] placeholder:text-[#9EA397] focus:border-[#315C4C] focus:ring-1 focus:ring-[#315C4C]"
           maxLength={300}
         />
       </div>
 
       <Button
         type="submit"
-        variant="gradient"
+        variant="primary"
         size="lg"
-        className="w-full shadow-lg shadow-indigo-100"
+        className="w-full"
         loading={loading}
       >
         <Sparkles className="w-5 h-5 mr-2" />

@@ -64,9 +64,9 @@ export const Step2Location = ({ initialData = {}, onNext }) => {
       </div>
 
       {/* Budget Range */}
-      <div className="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-100">
-        <h4 className="text-xs font-bold uppercase tracking-wider text-indigo-900 mb-3 flex items-center gap-1.5">
-          <DollarSign className="w-4 h-4 text-indigo-600" />
+      <div className="p-4 rounded-xl bg-[#F8F8F5] border border-[#E5E7E2]">
+        <h4 className="text-xs font-semibold uppercase tracking-wide text-[#202622] mb-3 flex items-center gap-1.5">
+          <DollarSign className="w-4 h-4 text-[#315C4C]" />
           Monthly Rent Budget (₹ INR)
         </h4>
 

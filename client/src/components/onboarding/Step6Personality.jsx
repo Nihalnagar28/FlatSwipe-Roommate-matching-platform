@@ -34,14 +34,14 @@ export const Step6Personality = ({ initialData = {}, onNext }) => {
             <div
               key={p.id}
               onClick={() => setFormData({ ...formData, personalityType: p.id })}
-              className={`p-4 rounded-2xl border cursor-pointer transition-all ${
+              className={`p-4 rounded-xl border cursor-pointer transition-all ${
                 formData.personalityType === p.id
-                  ? 'border-indigo-600 bg-indigo-50/70 ring-2 ring-indigo-200'
-                  : 'border-slate-200 hover:border-slate-300 bg-white'
+                  ? 'border-[#315C4C] bg-[#E8EAE3] ring-1 ring-[#315C4C]/30'
+                  : 'border-[#E5E7E2] hover:border-[#C8CBBC] bg-white'
               }`}
             >
-              <h4 className="text-sm font-bold text-slate-900">{p.title}</h4>
-              <p className="text-xs text-slate-500 mt-1">{p.desc}</p>
+              <h4 className="text-sm font-bold text-[#202622]">{p.title}</h4>
+              <p className="text-xs text-[#737B74] mt-1">{p.desc}</p>
             </div>
           ))}
         </div>

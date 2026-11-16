@@ -11,7 +11,7 @@ import { Footer } from '../components/layout/Footer';
 
 export const LandingPage = () => {
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-[#F8F8F5] flex flex-col">
       <Navbar />
       <main className="flex-1">
         <HeroSection />

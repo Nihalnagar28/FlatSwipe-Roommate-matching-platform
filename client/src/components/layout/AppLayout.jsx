@@ -6,7 +6,7 @@ import { BottomNav } from './BottomNav';
 
 export const AppLayout = () => {
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen bg-[#F8F8F5] flex flex-col">
       <Navbar />
       <div className="flex-1 flex max-w-7xl w-full mx-auto pb-16 lg:pb-0">
         <Sidebar />

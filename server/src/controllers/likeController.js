@@ -179,3 +179,18 @@ exports.getSuperLikes = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
+// @desc    Reset swipes to re-explore candidates
+// @route   POST /api/likes/reset
+exports.resetLikes = async (req, res) => {
+  try {
+    const filter = { fromUser: req.user.id };
+    if (req.query.all !== 'true') {
+      filter.type = 'pass';
+    }
+    await Like.deleteMany(filter);
+    res.status(200).json({ success: true, message: 'Swipes reset successfully' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};

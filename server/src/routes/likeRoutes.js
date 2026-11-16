@@ -6,6 +6,7 @@ const {
   getLikesReceived,
   getLikesSent,
   getSuperLikes,
+  resetLikes,
 } = require('../controllers/likeController');
 const { protect } = require('../middleware/auth');
 
@@ -16,5 +17,6 @@ router.post('/pass/:userId', passUser);
 router.get('/received', getLikesReceived);
 router.get('/sent', getLikesSent);
 router.get('/superlikes', getSuperLikes);
+router.post('/reset', resetLikes);
 
 module.exports = router;

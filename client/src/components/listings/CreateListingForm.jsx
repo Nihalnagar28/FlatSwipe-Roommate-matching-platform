@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, MapPin, DollarSign, Plus, ArrowRight, ShieldCheck } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { listingAPI } from '../../services/api';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
@@ -66,19 +66,19 @@ export const CreateListingForm = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div className="max-w-2xl mx-auto space-y-6 pb-12">
       <div>
-        <h1 className="text-2xl font-black text-slate-900 tracking-tight">Post a Flat / Room</h1>
-        <p className="text-xs text-slate-500 mt-1">Publish an available room to find verified, compatible roommates</p>
+        <h1 className="text-2xl font-bold text-[#202622] tracking-tight">Post a Flat / Room</h1>
+        <p className="text-xs text-[#737B74] mt-1">Publish an available room to find verified, compatible roommates</p>
       </div>
 
       {error && (
-        <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs">
+        <div className="p-3.5 rounded-lg bg-red-50 border border-red-200 text-[#C0392B] text-xs">
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="bg-white p-6 sm:p-8 rounded-3xl shadow-soft border border-slate-100 space-y-6">
+      <form onSubmit={handleSubmit} className="bg-white p-6 sm:p-8 rounded-xl shadow-sm border border-[#E5E7E2] space-y-5">
         <Input
           label="Listing Title"
           placeholder="e.g. Spacious Master Bedroom in Indiranagar 3BHK"
@@ -145,7 +145,7 @@ export const CreateListingForm = () => {
         />
 
         {/* Pricing */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-2xl bg-indigo-50/60 border border-indigo-100">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-lg bg-[#F8F8F5] border border-[#E5E7E2]">
           <Input
             label="Monthly Rent per Room (₹)"
             type="number"
@@ -173,15 +173,15 @@ export const CreateListingForm = () => {
         />
 
         <div>
-          <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-semibold text-[#737B74] uppercase tracking-wide mb-1.5">
             Full Description
           </label>
           <textarea
             rows={4}
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            placeholder="Describe the room, sunlight, society amenities, nearby transport, and what kind of flatmate you're looking for..."
-            className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
+            placeholder="Describe the room, sunlight, society amenities, nearby transit, and what kind of flatmate you're looking for..."
+            className="w-full rounded-lg border border-[#E5E7E2] p-3 text-sm text-[#202622] placeholder:text-[#9EA397] focus:border-[#315C4C] focus:ring-1 focus:ring-[#315C4C]"
             required
           />
         </div>

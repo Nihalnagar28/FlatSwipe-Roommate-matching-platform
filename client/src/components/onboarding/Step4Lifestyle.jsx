@@ -92,23 +92,23 @@ export const Step4Lifestyle = ({ initialData = {}, onNext }) => {
               Do you own any pets?
             </label>
             <div className="flex gap-4 items-center pt-2">
-              <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+              <label className="flex items-center gap-2 text-sm text-[#202622] cursor-pointer">
                 <input
                   type="radio"
                   name="hasPets"
                   checked={!formData.hasPets}
                   onChange={() => setFormData({ ...formData, hasPets: false, petType: '' })}
-                  className="text-indigo-600 focus:ring-indigo-500"
+                  className="text-[#315C4C] focus:ring-[#315C4C]"
                 />
                 No pets
               </label>
-              <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+              <label className="flex items-center gap-2 text-sm text-[#202622] cursor-pointer">
                 <input
                   type="radio"
                   name="hasPets"
                   checked={formData.hasPets}
                   onChange={() => setFormData({ ...formData, hasPets: true })}
-                  className="text-indigo-600 focus:ring-indigo-500"
+                  className="text-[#315C4C] focus:ring-[#315C4C]"
                 />
                 Yes, I have pets
               </label>
@@ -119,7 +119,7 @@ export const Step4Lifestyle = ({ initialData = {}, onNext }) => {
                 placeholder="What kind of pet? (e.g. 1 golden retriever)"
                 value={formData.petType}
                 onChange={(e) => setFormData({ ...formData, petType: e.target.value })}
-                className="mt-2 block w-full rounded-xl border-slate-200 text-xs p-2.5 border"
+                className="mt-2 block w-full rounded-lg border-[#E5E7E2] text-xs p-2.5 border text-[#202622] focus:border-[#315C4C] focus:ring-1 focus:ring-[#315C4C]"
               />
             )}
           </div>

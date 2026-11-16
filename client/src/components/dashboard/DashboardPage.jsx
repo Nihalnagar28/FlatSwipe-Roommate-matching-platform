@@ -20,6 +20,7 @@ import { Avatar } from '../ui/Avatar';
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
 import { formatCurrency } from '../../utils/helpers';
+import { getProfileFallback, getListingFallback, handleImageError } from '../../utils/imageFallback';
 
 export const DashboardPage = () => {
   const { user } = useAuth();
@@ -61,146 +62,162 @@ export const DashboardPage = () => {
     fetchDashboardData();
   }, [user]);
 
+  const greeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 18) return 'Good afternoon';
+    return 'Good evening';
+  };
+
   return (
     <div className="space-y-8 max-w-6xl mx-auto">
-      {/* Welcome Banner */}
-      <div className="relative rounded-3xl bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-900 text-white p-6 sm:p-8 overflow-hidden shadow-card">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full blur-2xl pointer-events-none" />
-        
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold backdrop-blur-sm">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-300" />
-              <span>Lifestyle-Based Matching Engine</span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-              Hello, {user?.fullName?.split(' ')[0] || 'Friend'}! 👋
-            </h1>
-            <p className="text-sm text-indigo-200 max-w-xl">
-              We found compatible flatmates searching around {user?.currentCity || 'your city'}. Review your matches or start swiping!
-            </p>
-          </div>
+      {/* Page Header */}
+      <div className="space-y-4">
+        <div>
+          <h1 className="text-3xl font-extrabold text-[#202622] tracking-tight">
+            {greeting()}, {user?.fullName?.split(' ')[0] || 'Friend'} 👋
+          </h1>
+          <p className="text-sm text-[#737B74] mt-1">
+            We found compatible flatmates searching around {user?.currentCity || 'your city'}. Review your matches or start swiping!
+          </p>
+        </div>
 
-          <div className="flex flex-wrap gap-3">
-            <Link to="/discover">
-              <Button variant="primary" size="lg" className="bg-white text-indigo-900 hover:bg-slate-100 font-bold shadow-lg shadow-black/10">
-                <Sparkles className="w-4 h-4 mr-2" />
-                Start Discovering
-              </Button>
-            </Link>
-            <Link to="/listings/new">
-              <Button variant="outline" size="lg" className="border-white/30 text-white hover:bg-white/10">
-                Post Room
-              </Button>
-            </Link>
+        {/* Profile Completion Bar */}
+        <div className="bg-white rounded-xl border border-[#E5E7E2] shadow-sm p-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold text-[#737B74] uppercase tracking-wide">Profile Strength</span>
+            <span className="text-xs font-bold text-[#315C4C]">{stats.profileCompletion || 85}%</span>
           </div>
+          <div className="w-full bg-[#E8EAE3] rounded-full h-2">
+            <div
+              className="bg-[#315C4C] h-2 rounded-full transition-all duration-500"
+              style={{ width: `${stats.profileCompletion || 85}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-wrap gap-3">
+          <Link to="/discover">
+            <Button variant="primary" size="lg">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Start Discovering
+            </Button>
+          </Link>
+          <Link to="/listings/new">
+            <Button variant="secondary" size="lg">
+              Post Room
+            </Button>
+          </Link>
         </div>
       </div>
 
       {/* Metrics Row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-5 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
-            <Heart className="w-6 h-6 text-indigo-600 fill-indigo-100" />
+        <div className="bg-white rounded-xl border border-[#E5E7E2] shadow-sm p-5 flex items-center gap-4">
+          <div className="w-10 h-10 rounded-lg bg-[#E8EAE3] flex items-center justify-center shrink-0">
+            <Heart className="w-5 h-5 text-[#315C4C]" />
           </div>
           <div>
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Active Matches</p>
-            <h3 className="text-2xl font-black text-slate-900">{stats.matchCount}</h3>
+            <p className="text-xs font-semibold text-[#737B74] uppercase tracking-wide">Active Matches</p>
+            <h3 className="text-2xl font-black text-[#202622]">{stats.matchCount}</h3>
           </div>
-        </Card>
+        </div>
 
-        <Card className="p-5 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold">
-            <Sparkles className="w-6 h-6 text-rose-500" />
+        <div className="bg-white rounded-xl border border-[#E5E7E2] shadow-sm p-5 flex items-center gap-4">
+          <div className="w-10 h-10 rounded-lg bg-[#E8EAE3] flex items-center justify-center shrink-0">
+            <Sparkles className="w-5 h-5 text-[#315C4C]" />
           </div>
           <div>
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">New Likes</p>
-            <h3 className="text-2xl font-black text-slate-900">{stats.likesReceived}</h3>
+            <p className="text-xs font-semibold text-[#737B74] uppercase tracking-wide">New Likes</p>
+            <h3 className="text-2xl font-black text-[#202622]">{stats.likesReceived}</h3>
           </div>
-        </Card>
+        </div>
 
-        <Card className="p-5 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
-            <MessageSquare className="w-6 h-6 text-purple-500" />
+        <div className="bg-white rounded-xl border border-[#E5E7E2] shadow-sm p-5 flex items-center gap-4">
+          <div className="w-10 h-10 rounded-lg bg-[#E8EAE3] flex items-center justify-center shrink-0">
+            <MessageSquare className="w-5 h-5 text-[#315C4C]" />
           </div>
           <div>
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Unread Chats</p>
-            <h3 className="text-2xl font-black text-slate-900">{stats.unreadMessages}</h3>
+            <p className="text-xs font-semibold text-[#737B74] uppercase tracking-wide">Unread Chats</p>
+            <h3 className="text-2xl font-black text-[#202622]">{stats.unreadMessages}</h3>
           </div>
-        </Card>
+        </div>
 
-        <Card className="p-5 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
-            <ShieldCheck className="w-6 h-6 text-emerald-600" />
+        <div className="bg-white rounded-xl border border-[#E5E7E2] shadow-sm p-5 flex items-center gap-4">
+          <div className="w-10 h-10 rounded-lg bg-[#E8EAE3] flex items-center justify-center shrink-0">
+            <ShieldCheck className="w-5 h-5 text-[#315C4C]" />
           </div>
           <div>
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">ID Verification</p>
-            <h3 className="text-sm font-bold text-slate-900 mt-1">
+            <p className="text-xs font-semibold text-[#737B74] uppercase tracking-wide">ID Verification</p>
+            <h3 className="text-sm font-bold text-[#202622] mt-1">
               {user?.verificationBadge ? (
-                <span className="text-emerald-600 flex items-center gap-1">
+                <span className="text-[#315C4C] flex items-center gap-1">
                   <CheckCircle className="w-4 h-4" /> Verified
                 </span>
               ) : (
-                <Link to="/profile" className="text-indigo-600 hover:underline">
+                <Link to="/profile" className="text-[#315C4C] hover:underline">
                   Submit ID →
                 </Link>
               )}
             </h3>
           </div>
-        </Card>
+        </div>
       </div>
 
-      {/* Recommended Flatmates Carousel */}
+      {/* Recommended Flatmates */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-bold text-slate-900">Highly Compatible Flatmates</h2>
-            <p className="text-xs text-slate-500">Based on your sleep, cleanliness, and lifestyle preferences</p>
+            <h2 className="text-lg font-bold text-[#202622]">Highly Compatible Flatmates</h2>
+            <p className="text-xs text-[#737B74]">Based on your sleep, cleanliness, and lifestyle preferences</p>
           </div>
-          <Link to="/discover" className="text-xs font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
+          <Link to="/discover" className="text-xs font-bold text-[#315C4C] hover:text-[#264a3c] flex items-center gap-1">
             Open Discovery <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {recommended.length === 0 ? (
-            <div className="col-span-full bg-white rounded-2xl p-8 text-center border border-slate-100">
-              <Sparkles className="w-8 h-8 text-indigo-400 mx-auto mb-2" />
-              <p className="text-sm font-semibold text-slate-700">All caught up for now!</p>
-              <p className="text-xs text-slate-400 mt-1">Check back later for new roommate profiles in {user?.currentCity}.</p>
+            <div className="col-span-full bg-white rounded-xl p-8 text-center border border-[#E5E7E2]">
+              <Sparkles className="w-8 h-8 text-[#315C4C] mx-auto mb-2" />
+              <p className="text-sm font-semibold text-[#202622]">All caught up for now!</p>
+              <p className="text-xs text-[#737B74] mt-1">Check back later for new roommate profiles in {user?.currentCity}.</p>
             </div>
           ) : (
             recommended.map((item) => (
-              <Card key={item.user._id} className="p-4 flex flex-col justify-between" hover>
+              <div key={item.user._id} className="bg-white rounded-xl border border-[#E5E7E2] shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition-shadow">
                 <div>
                   <div className="relative h-44 rounded-xl overflow-hidden mb-3">
                     <img
-                      src={item.user.profilePicture || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400'}
+                      src={item.user.profilePicture || getProfileFallback(item.user.fullName)}
                       alt={item.user.fullName}
+                      referrerPolicy="no-referrer"
+                      onError={(e) => handleImageError(e, 'profile', item.user.fullName)}
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute top-2.5 right-2.5 bg-emerald-600 text-white font-extrabold text-[11px] px-2.5 py-1 rounded-full shadow-md">
+                    <div className="absolute top-2.5 right-2.5 bg-[#315C4C] text-white font-extrabold text-[11px] px-2.5 py-1 rounded-full shadow-md">
                       {item.compatibility?.score || 85}% Match
                     </div>
                   </div>
 
                   <div className="flex items-center gap-1.5 mb-1">
-                    <h4 className="font-bold text-sm text-slate-900">{item.user.fullName}</h4>
-                    <span className="text-xs font-medium text-slate-500">{item.user.age}</span>
+                    <h4 className="font-bold text-sm text-[#202622]">{item.user.fullName}</h4>
+                    <span className="text-xs font-medium text-[#737B74]">{item.user.age}</span>
                   </div>
 
-                  <p className="text-xs text-slate-500 mb-2 truncate">
+                  <p className="text-xs text-[#737B74] mb-2 truncate">
                     {item.user.occupation} • {item.user.currentCity}
                   </p>
 
                   <div className="flex flex-wrap gap-1 text-[10px] mb-3">
-                    <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded-md font-medium">
+                    <span className="bg-[#E8EAE3] text-[#202622] px-2 py-0.5 rounded-md font-medium">
                       {item.user.chronotype || 'flexible'}
                     </span>
-                    <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded-md font-medium">
+                    <span className="bg-[#E8EAE3] text-[#202622] px-2 py-0.5 rounded-md font-medium">
                       {item.user.cleanlinessLevel || 'clean'}
                     </span>
-                    <span className="bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-md font-medium">
+                    <span className="bg-[#E8EAE3] text-[#315C4C] px-2 py-0.5 rounded-md font-medium">
                       {formatCurrency(item.user.budgetMin)} - {formatCurrency(item.user.budgetMax)}
                     </span>
                   </div>
@@ -211,54 +228,56 @@ export const DashboardPage = () => {
                     View in Discovery
                   </Button>
                 </Link>
-              </Card>
+              </div>
             ))
           )}
         </div>
       </div>
 
-      {/* Available Flats in your city */}
+      {/* Available Flats */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-bold text-slate-900">Verified Flats in {user?.currentCity || 'Your Area'}</h2>
-            <p className="text-xs text-slate-500">Available rooms posted directly by roommates and owners</p>
+            <h2 className="text-lg font-bold text-[#202622]">Verified Flats in {user?.currentCity || 'Your Area'}</h2>
+            <p className="text-xs text-[#737B74]">Available rooms posted directly by roommates and owners</p>
           </div>
-          <Link to="/listings" className="text-xs font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
+          <Link to="/listings" className="text-xs font-bold text-[#315C4C] hover:text-[#264a3c] flex items-center gap-1">
             Browse All Listings <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {recentListings.map((listing) => (
-            <Card key={listing._id} className="overflow-hidden flex flex-col justify-between" hover>
+            <div key={listing._id} className="bg-white rounded-xl border border-[#E5E7E2] shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-md transition-shadow">
               <div>
-                <div className="relative h-48 bg-slate-100">
+                <div className="relative h-48 bg-[#E8EAE3]">
                   <img
-                    src={listing.images?.[0]?.url || 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=600'}
+                    src={listing.images?.[0]?.url || getListingFallback(listing.title)}
                     alt={listing.title}
+                    referrerPolicy="no-referrer"
+                    onError={(e) => handleImageError(e, 'listing', listing.title)}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute bottom-3 left-3 bg-slate-950/80 backdrop-blur-md text-white font-extrabold text-sm px-3 py-1 rounded-xl">
+                  <div className="absolute bottom-3 left-3 bg-slate-950/80 text-white font-extrabold text-sm px-3 py-1 rounded-xl">
                     {formatCurrency(listing.rent)}/mo
                   </div>
                   {listing.isVerified && (
-                    <div className="absolute top-3 right-3 bg-indigo-600 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1">
+                    <div className="absolute top-3 right-3 bg-[#315C4C] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1">
                       <ShieldCheck className="w-3 h-3" /> Verified Flat
                     </div>
                   )}
                 </div>
 
                 <div className="p-4">
-                  <h3 className="font-bold text-sm text-slate-900 line-clamp-1 mb-1">{listing.title}</h3>
-                  <p className="text-xs text-slate-500 flex items-center gap-1 mb-3">
-                    <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                  <h3 className="font-bold text-sm text-[#202622] line-clamp-1 mb-1">{listing.title}</h3>
+                  <p className="text-xs text-[#737B74] flex items-center gap-1 mb-3">
+                    <MapPin className="w-3.5 h-3.5 text-[#737B74]" />
                     {listing.location?.area || listing.location?.city}
                   </p>
 
                   <div className="flex flex-wrap gap-1.5 mb-2">
                     {listing.amenities?.slice(0, 3).map((a) => (
-                      <span key={a} className="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md">
+                      <span key={a} className="text-[10px] bg-[#E8EAE3] text-[#202622] px-2 py-0.5 rounded-md">
                         {a}
                       </span>
                     ))}
@@ -273,7 +292,7 @@ export const DashboardPage = () => {
                   </Button>
                 </Link>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       </div>

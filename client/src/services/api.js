@@ -66,6 +66,7 @@ export const likeAPI = {
   getReceivedLikes: () => API.get('/likes/received'),
   getSentLikes: () => API.get('/likes/sent'),
   getSuperLikes: () => API.get('/likes/superlikes'),
+  resetLikes: (all = false) => API.post('/likes/reset', null, { params: { all } }),
 };
 
 export const matchAPI = {

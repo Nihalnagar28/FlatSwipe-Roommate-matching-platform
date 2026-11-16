@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Heart, CheckCircle } from 'lucide-react';
+import { Search, CheckCircle } from 'lucide-react';
 import { Avatar } from '../ui/Avatar';
 import { formatRelativeTime } from '../../utils/helpers';
 
@@ -18,26 +18,26 @@ export const ChatSidebar = ({
   });
 
   return (
-    <div className="w-full lg:w-80 border-r border-slate-100 bg-white flex flex-col h-full">
+    <div className="w-full lg:w-80 border-r border-[#E5E7E2] bg-white flex flex-col h-full">
       {/* Search Bar */}
-      <div className="p-4 border-b border-slate-100">
-        <h2 className="text-lg font-black text-slate-900 mb-3 tracking-tight">Messages</h2>
+      <div className="p-4 border-b border-[#E5E7E2]">
+        <h2 className="text-lg font-bold text-[#202622] mb-3 tracking-tight">Messages</h2>
         <div className="relative">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#737B74] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search conversations..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-3.5 py-2 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-600 transition-colors"
+            className="w-full pl-9 pr-3.5 py-2 text-xs rounded-lg bg-[#F8F8F5] border border-[#E5E7E2] text-[#202622] placeholder:text-[#9EA397] focus:bg-white focus:border-[#315C4C] focus:outline-none transition-colors"
           />
         </div>
       </div>
 
       {/* Matches List */}
-      <div className="flex-1 overflow-y-auto divide-y divide-slate-50">
+      <div className="flex-1 overflow-y-auto divide-y divide-[#E5E7E2]">
         {filteredMatches.length === 0 ? (
-          <div className="p-8 text-center text-xs text-slate-400">
+          <div className="p-8 text-center text-xs text-[#737B74]">
             No active conversations
           </div>
         ) : (
@@ -52,7 +52,7 @@ export const ChatSidebar = ({
                 key={match._id}
                 onClick={() => onSelectMatch(match._id)}
                 className={`p-3.5 flex items-center gap-3 cursor-pointer transition-colors ${
-                  isSelected ? 'bg-indigo-50/70 border-r-2 border-indigo-600' : 'hover:bg-slate-50'
+                  isSelected ? 'bg-[#E8EAE3] border-l-2 border-[#315C4C]' : 'hover:bg-[#F8F8F5]'
                 }`}
               >
                 <Avatar
@@ -65,21 +65,21 @@ export const ChatSidebar = ({
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-0.5">
                     <div className="flex items-center gap-1 truncate">
-                      <span className="font-bold text-xs text-slate-900 truncate">
+                      <span className="font-bold text-xs text-[#202622] truncate">
                         {partner.fullName}
                       </span>
                       {partner.verificationBadge && (
-                        <CheckCircle className="w-3 h-3 text-indigo-600 fill-indigo-100 shrink-0" />
+                        <CheckCircle className="w-3 h-3 text-[#315C4C] fill-[#E8EAE3] shrink-0" />
                       )}
                     </div>
                     {match.lastMessageAt && (
-                      <span className="text-[10px] text-slate-400 shrink-0">
+                      <span className="text-[10px] text-[#737B74] shrink-0">
                         {formatRelativeTime(match.lastMessageAt)}
                       </span>
                     )}
                   </div>
 
-                  <p className="text-xs text-slate-500 truncate">
+                  <p className="text-xs text-[#737B74] truncate">
                     {match.lastMessage?.content || 'Matched! Tap to chat.'}
                   </p>
                 </div>

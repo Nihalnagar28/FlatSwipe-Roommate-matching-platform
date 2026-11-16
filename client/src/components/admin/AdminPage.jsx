@@ -17,10 +17,11 @@ export const AdminPage = () => {
   ];
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto">
-      <div>
-        <h1 className="text-2xl font-black text-slate-900 tracking-tight">Admin Operations Panel</h1>
-        <p className="text-xs text-slate-500 mt-1">Platform-wide statistics, user moderation, and safety verifications</p>
+    <div className="space-y-6 max-w-6xl mx-auto pb-12">
+      <div className="border-b border-[#E5E7E2] pb-5">
+        <span className="text-[11px] font-bold uppercase tracking-wider text-[#737B74]">Administration</span>
+        <h1 className="text-2xl font-bold text-[#202622] tracking-tight mt-1">Platform Operations</h1>
+        <p className="text-xs text-[#737B74] mt-1">System telemetry, user moderation, verification queues, and listing management</p>
       </div>
 
       <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />

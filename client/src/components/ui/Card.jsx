@@ -9,8 +9,8 @@ export const Card = ({
 }) => {
   return (
     <div
-      className={`bg-white rounded-2xl border border-slate-100 shadow-soft overflow-hidden transition-all duration-200 ${
-        hover ? 'hover:shadow-card hover:-translate-y-0.5 cursor-pointer' : ''
+      className={`bg-white border border-[#E5E7E2] rounded-xl shadow-sm overflow-hidden transition-all duration-150 ${
+        hover ? 'hover:shadow-md hover:-translate-y-0.5 cursor-pointer' : ''
       } ${className}`}
       onClick={onClick}
       {...props}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckSquare, Square, CheckCircle, Shield } from 'lucide-react';
+import { Square, CheckCircle, Shield } from 'lucide-react';
 
 export const MeetupChecklist = ({ checklist = {}, onToggleItem, isReadOnly = false }) => {
   const items = [
@@ -17,26 +17,26 @@ export const MeetupChecklist = ({ checklist = {}, onToggleItem, isReadOnly = fal
   const progressPercent = Math.round((completedCount / items.length) * 100);
 
   return (
-    <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-soft space-y-6">
+    <div className="bg-white p-6 rounded-xl border border-[#E5E7E2] shadow-sm space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
-            <Shield className="w-5 h-5 text-indigo-600" />
+          <h3 className="text-base font-bold text-[#202622] flex items-center gap-2">
+            <Shield className="w-5 h-5 text-[#315C4C]" />
             Pre-Move Discussion Checklist
           </h3>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-[#737B74] mt-0.5">
             Discuss and align on these 8 essential points before deciding to sign a lease together.
           </p>
         </div>
-        <span className="text-xs font-bold px-3 py-1 rounded-full bg-indigo-50 text-indigo-700">
+        <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#E8EAE3] text-[#315C4C]">
           {completedCount} of {items.length} Agreed ({progressPercent}%)
         </span>
       </div>
 
       {/* Progress bar */}
-      <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+      <div className="w-full bg-[#E5E7E2] h-1.5 rounded-full overflow-hidden">
         <div
-          className="bg-gradient-to-r from-indigo-500 to-emerald-500 h-2 rounded-full transition-all duration-300"
+          className="bg-[#315C4C] h-1.5 rounded-full transition-all duration-300"
           style={{ width: `${progressPercent}%` }}
         />
       </div>
@@ -49,27 +49,27 @@ export const MeetupChecklist = ({ checklist = {}, onToggleItem, isReadOnly = fal
             <div
               key={item.key}
               onClick={() => !isReadOnly && onToggleItem && onToggleItem(item.key)}
-              className={`p-3.5 rounded-2xl border transition-all ${
-                isReadOnly ? 'cursor-default' : 'cursor-pointer hover:border-indigo-300'
+              className={`p-3.5 rounded-lg border transition-all ${
+                isReadOnly ? 'cursor-default' : 'cursor-pointer hover:border-[#315C4C]'
               } ${
                 isChecked
-                  ? 'bg-emerald-50/70 border-emerald-200'
-                  : 'bg-slate-50/50 border-slate-100'
+                  ? 'bg-[#E8EAE3]/70 border-[#315C4C]/40'
+                  : 'bg-[#F8F8F5] border-[#E5E7E2]'
               }`}
             >
               <div className="flex items-start gap-3">
-                <div className="mt-0.5 shrink-0 text-emerald-600">
+                <div className="mt-0.5 shrink-0 text-[#315C4C]">
                   {isChecked ? (
-                    <CheckCircle className="w-5 h-5 fill-emerald-100" />
+                    <CheckCircle className="w-5 h-5 fill-[#315C4C] text-white" />
                   ) : (
-                    <Square className="w-5 h-5 text-slate-300" />
+                    <Square className="w-5 h-5 text-[#C8CBBC]" />
                   )}
                 </div>
                 <div>
-                  <h4 className={`text-xs font-bold ${isChecked ? 'text-emerald-950' : 'text-slate-800'}`}>
+                  <h4 className={`text-xs font-bold ${isChecked ? 'text-[#315C4C]' : 'text-[#202622]'}`}>
                     {item.title}
                   </h4>
-                  <p className="text-[11px] text-slate-500 mt-0.5 leading-normal">{item.desc}</p>
+                  <p className="text-[11px] text-[#737B74] mt-0.5 leading-normal">{item.desc}</p>
                 </div>
               </div>
             </div>

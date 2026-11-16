@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Sparkles, ArrowRight, AlertCircle } from 'lucide-react';
+import { Mail, Lock, ArrowRight, AlertCircle, CheckCircle2, Shield, Users } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
+import { Logo } from '../ui/Logo';
 
 export const LoginForm = () => {
   const { login } = useAuth();
@@ -58,108 +59,159 @@ export const LoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-slate-50 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-100/50 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-100/40 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="max-w-md w-full space-y-8 bg-white p-8 sm:p-10 rounded-3xl shadow-soft border border-slate-100 relative z-10">
-        <div className="text-center">
-          <Link to="/" className="inline-flex items-center gap-2 mb-4 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-md shadow-indigo-100 group-hover:scale-105 transition-transform">
-              <Sparkles className="w-5 h-5" />
-            </div>
-            <span className="font-extrabold text-2xl tracking-tight text-slate-900">FlatMate</span>
-          </Link>
-          <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Welcome back</h2>
-          <p className="mt-1 text-xs text-slate-500">Sign in to find compatible flatmates and manage your matches</p>
-        </div>
-
-        {error && (
-          <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0" />
-            <span>{error}</span>
+    <div className="min-h-screen flex" style={{ fontFamily: 'Manrope, sans-serif' }}>
+      {/* Left — Form Panel (60%) */}
+      <div className="flex-1 lg:w-[60%] flex flex-col items-center justify-center px-6 py-12 bg-[#F8F8F5]">
+        <div className="w-full max-w-sm">
+          {/* Logo */}
+          <div className="mb-8">
+            <Logo to="/" size="md" />
           </div>
-        )}
 
-        <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
-          <Input
-            label="Email Address"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-            icon={Mail}
-            required
-          />
+          <h1 className="text-2xl font-bold text-[#202622] mb-1">Welcome back</h1>
+          <p className="text-sm text-[#737B74] mb-8">
+            Sign in to find compatible flatmates and manage your matches
+          </p>
 
-          <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                Password
-              </label>
-              <Link to="/forgot-password" className="text-xs font-semibold text-indigo-600 hover:underline">
-                Forgot password?
-              </Link>
+          {error && (
+            <div className="mb-5 p-3 rounded-lg bg-red-50 border border-red-200 text-[#C0392B] text-sm flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0" />
+              <span>{error}</span>
             </div>
+          )}
+
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              icon={Lock}
+              label="Email Address"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              icon={Mail}
               required
             />
+
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-sm font-semibold text-[#202622]">Password</label>
+                <Link
+                  to="/forgot-password"
+                  className="text-xs font-medium text-[#315C4C] hover:underline"
+                >
+                  Forgot password?
+                </Link>
+              </div>
+              <Input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                icon={Lock}
+                required
+              />
+            </div>
+
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              className="w-full"
+              loading={loading}
+            >
+              Sign In
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </form>
+
+          {/* Demo Quick Login */}
+          <div className="mt-6 pt-5 border-t border-[#E5E7E2]">
+            <p className="text-center text-[11px] font-bold uppercase tracking-wider text-[#737B74] mb-3">
+              Quick Demo Login
+            </p>
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <button
+                type="button"
+                onClick={() => handleDemoLogin('aarav@example.com')}
+                className="py-2 px-2.5 rounded-lg border border-[#E5E7E2] text-[#202622] font-medium hover:bg-[#F8F8F5] transition-colors truncate"
+              >
+                🧑 Aarav (Tech/Indiranagar)
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDemoLogin('priya@example.com')}
+                className="py-2 px-2.5 rounded-lg border border-[#E5E7E2] text-[#202622] font-medium hover:bg-[#F8F8F5] transition-colors truncate"
+              >
+                👩 Priya (Design/Koramangala)
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDemoLogin('admin@flatmate.com')}
+                className="col-span-2 py-2 px-2.5 rounded-lg border border-[#E5E7E2] bg-[#E8EAE3] text-[#315C4C] font-semibold hover:bg-[#dde0d9] transition-colors truncate text-center"
+              >
+                🛡️ Platform Admin User
+              </button>
+            </div>
           </div>
 
-          <Button
-            type="submit"
-            variant="primary"
-            size="lg"
-            className="w-full shadow-md shadow-indigo-100"
-            loading={loading}
-          >
-            Sign In
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
-        </form>
-
-        {/* Demo Fast Login Buttons for testing convenience */}
-        <div className="pt-4 border-t border-slate-100">
-          <p className="text-center text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3">
-            Quick Demo Login
+          <p className="mt-6 text-center text-sm text-[#737B74]">
+            Don't have an account?{' '}
+            <Link to="/register" className="font-semibold text-[#315C4C] hover:underline">
+              Create an account
+            </Link>
           </p>
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            <button
-              type="button"
-              onClick={() => handleDemoLogin('aarav@example.com')}
-              className="py-2 px-2.5 rounded-xl border border-slate-200 text-slate-700 font-medium hover:bg-slate-50 transition-colors truncate"
-            >
-              🧑 Aarav (Tech/Indiranagar)
-            </button>
-            <button
-              type="button"
-              onClick={() => handleDemoLogin('priya@example.com')}
-              className="py-2 px-2.5 rounded-xl border border-slate-200 text-slate-700 font-medium hover:bg-slate-50 transition-colors truncate"
-            >
-              👩 Priya (Design/Koramangala)
-            </button>
-            <button
-              type="button"
-              onClick={() => handleDemoLogin('admin@flatmate.com')}
-              className="col-span-2 py-2 px-2.5 rounded-xl border border-indigo-200 bg-indigo-50/50 text-indigo-700 font-medium hover:bg-indigo-50 transition-colors truncate text-center"
-            >
-              🛡️ Platform Admin User
-            </button>
-          </div>
         </div>
+      </div>
 
-        <p className="text-center text-xs text-slate-500">
-          Don't have an account?{' '}
-          <Link to="/register" className="font-bold text-indigo-600 hover:underline">
-            Create an account
-          </Link>
-        </p>
+      {/* Right — Brand Panel (40%) — hidden on mobile */}
+      <div className="hidden lg:flex lg:w-[40%] flex-col items-center justify-center bg-[#315C4C] text-white px-10 py-12">
+        <div className="max-w-xs w-full">
+          <div className="mb-10">
+            <Logo to="/" size="md" />
+          </div>
+
+          <h2 className="text-3xl font-bold leading-tight mb-4">
+            Find your perfect flatmate, not just a roommate.
+          </h2>
+          <p className="text-sm text-white/70 mb-10">
+            FlatSwipe matches you based on lifestyle, habits, and personality — not just price.
+          </p>
+
+          <ul className="space-y-6">
+            <li className="flex items-start gap-4">
+              <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0 mt-0.5">
+                <CheckCircle2 className="w-5 h-5 text-[#D9A16A]" />
+              </div>
+              <div>
+                <p className="font-semibold text-sm">Compatibility-first matching</p>
+                <p className="text-xs text-white/60 mt-0.5">
+                  Our algorithm considers sleep schedules, cleanliness, budget and more.
+                </p>
+              </div>
+            </li>
+            <li className="flex items-start gap-4">
+              <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0 mt-0.5">
+                <Shield className="w-5 h-5 text-[#D9A16A]" />
+              </div>
+              <div>
+                <p className="font-semibold text-sm">Verified profiles</p>
+                <p className="text-xs text-white/60 mt-0.5">
+                  Every member goes through ID verification for a safe experience.
+                </p>
+              </div>
+            </li>
+            <li className="flex items-start gap-4">
+              <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0 mt-0.5">
+                <Users className="w-5 h-5 text-[#D9A16A]" />
+              </div>
+              <div>
+                <p className="font-semibold text-sm">10,000+ successful matches</p>
+                <p className="text-xs text-white/60 mt-0.5">
+                  Thousands of people found their ideal living situation on FlatSwipe.
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );

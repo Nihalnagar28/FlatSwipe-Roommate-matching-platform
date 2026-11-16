@@ -12,14 +12,14 @@ export const Select = forwardRef(({
   return (
     <div className={`w-full ${containerClassName}`}>
       {label && (
-        <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+        <label className="block text-xs font-semibold text-[#737B74] uppercase tracking-wide mb-1.5">
           {label}
         </label>
       )}
       <select
         ref={ref}
-        className={`block w-full rounded-xl border border-slate-200 bg-white text-slate-900 text-sm py-2.5 px-3.5 focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-colors duration-150 ${
-          error ? 'border-rose-400 focus:border-rose-500' : ''
+        className={`w-full bg-white border border-[#E5E7E2] rounded-lg px-3.5 py-2.5 text-sm text-[#202622] focus:outline-none focus:ring-2 focus:ring-[#315C4C]/20 focus:border-[#315C4C] transition-colors ${
+          error ? 'border-[#C0392B] focus:ring-red-400/20 focus:border-[#C0392B]' : ''
         } ${className}`}
         {...props}
       >
@@ -30,7 +30,7 @@ export const Select = forwardRef(({
           </option>
         ))}
       </select>
-      {error && <p className="mt-1 text-xs text-rose-500 font-medium">{error}</p>}
+      {error && <p className="mt-1 text-xs text-[#C0392B] font-medium">{error}</p>}
     </div>
   );
 });

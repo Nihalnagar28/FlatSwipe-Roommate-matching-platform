@@ -3,6 +3,7 @@ import { Camera, Sparkles } from 'lucide-react';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
 import { Button } from '../ui/Button';
+import { getProfileFallback, handleImageError } from '../../utils/imageFallback';
 
 export const Step1Personal = ({ initialData = {}, onNext }) => {
   const [formData, setFormData] = useState({
@@ -35,17 +36,19 @@ export const Step1Personal = ({ initialData = {}, onNext }) => {
       <div className="flex flex-col items-center sm:flex-row sm:items-start gap-6 pb-4 border-b border-slate-100">
         <div className="relative group">
           <img
-            src={formData.profilePicture}
+            src={formData.profilePicture || getProfileFallback(formData.fullName || 'You')}
             alt="Profile Preview"
-            className="w-24 h-24 rounded-2xl object-cover shadow-md border-2 border-indigo-100"
+            referrerPolicy="no-referrer"
+            onError={(e) => handleImageError(e, 'profile', formData.fullName || 'You')}
+            className="w-24 h-24 rounded-xl object-cover shadow-sm border border-[#E5E7E2]"
           />
-          <div className="absolute inset-0 bg-slate-900/30 rounded-2xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer">
+          <div className="absolute inset-0 bg-[#202622]/30 rounded-xl opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer">
             <Camera className="w-6 h-6 text-white" />
           </div>
         </div>
 
         <div className="flex-1 text-center sm:text-left">
-          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-semibold text-[#737B74] uppercase tracking-wide mb-1.5">
             Choose Profile Picture
           </label>
           <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
@@ -54,16 +57,18 @@ export const Step1Personal = ({ initialData = {}, onNext }) => {
                 key={idx}
                 src={preset}
                 alt="Preset"
+                referrerPolicy="no-referrer"
+                onError={(e) => handleImageError(e, 'profile', `User ${idx + 1}`)}
                 onClick={() => setFormData({ ...formData, profilePicture: preset })}
-                className={`w-10 h-10 rounded-xl object-cover cursor-pointer transition-all border-2 ${
+                className={`w-10 h-10 rounded-lg object-cover cursor-pointer transition-all border-2 ${
                   formData.profilePicture === preset
-                    ? 'border-indigo-600 scale-105 ring-2 ring-indigo-200'
+                    ? 'border-[#315C4C] ring-2 ring-[#315C4C]/20'
                     : 'border-transparent hover:opacity-80'
                 }`}
               />
             ))}
           </div>
-          <p className="text-[11px] text-slate-400 mt-2">
+          <p className="text-[11px] text-[#737B74] mt-2">
             Click any avatar or paste an image URL in your profile later.
           </p>
         </div>
@@ -120,7 +125,7 @@ export const Step1Personal = ({ initialData = {}, onNext }) => {
       </div>
 
       <div>
-        <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+        <label className="block text-xs font-semibold text-[#737B74] uppercase tracking-wide mb-1.5">
           Short Bio (About you)
         </label>
         <textarea
@@ -128,7 +133,7 @@ export const Step1Personal = ({ initialData = {}, onNext }) => {
           value={formData.bio}
           onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
           placeholder="Tell prospective flatmates a little about yourself, your hobbies, and what you enjoy doing on weekends..."
-          className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
+          className="w-full rounded-lg border border-[#E5E7E2] p-3 text-sm text-[#202622] placeholder:text-[#9EA397] focus:border-[#315C4C] focus:ring-1 focus:ring-[#315C4C]"
           maxLength={400}
         />
         <p className="text-[11px] text-slate-400 text-right mt-1">

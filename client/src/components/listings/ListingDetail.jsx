@@ -4,13 +4,8 @@ import {
   MapPin,
   ShieldCheck,
   Bookmark,
-  Share2,
-  Calendar,
   CheckCircle,
   ArrowLeft,
-  DollarSign,
-  Home,
-  MessageSquare,
 } from 'lucide-react';
 import { listingAPI } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
@@ -18,6 +13,7 @@ import { Button } from '../ui/Button';
 import { Avatar } from '../ui/Avatar';
 import { Spinner } from '../ui/Spinner';
 import { formatCurrency } from '../../utils/helpers';
+import { getListingFallback, handleImageError } from '../../utils/imageFallback';
 
 export const ListingDetail = () => {
   const { id } = useParams();
@@ -72,7 +68,7 @@ export const ListingDetail = () => {
   if (!listing) {
     return (
       <div className="text-center py-24 space-y-4">
-        <h2 className="text-xl font-bold text-slate-800">Listing not found</h2>
+        <h2 className="text-xl font-bold text-[#202622]">Listing not found</h2>
         <Link to="/listings">
           <Button variant="secondary">Back to Listings</Button>
         </Link>
@@ -86,12 +82,12 @@ export const ListingDetail = () => {
       : [{ url: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=800' }];
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 pb-12">
+    <div className="max-w-5xl mx-auto space-y-6 pb-12">
       {/* Back button */}
       <div>
         <button
           onClick={() => navigate(-1)}
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#737B74] hover:text-[#202622] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Listings
@@ -100,15 +96,17 @@ export const ListingDetail = () => {
 
       {/* Image Gallery */}
       <div className="space-y-3">
-        <div className="relative h-80 sm:h-96 md:h-[420px] rounded-3xl overflow-hidden bg-slate-900 shadow-card">
+        <div className="relative h-80 sm:h-96 md:h-[420px] rounded-xl overflow-hidden bg-[#202622] shadow-sm">
           <img
-            src={images[activeImageIndex]?.url}
+            src={images[activeImageIndex]?.url || getListingFallback(listing.title)}
             alt={listing.title}
+            referrerPolicy="no-referrer"
+            onError={(e) => handleImageError(e, 'listing', listing.title)}
             className="w-full h-full object-cover"
           />
 
           {listing.isVerified && (
-            <div className="absolute top-4 left-4 bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5">
+            <div className="absolute top-4 left-4 bg-[#315C4C] text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4" /> Verified Flat Listing
             </div>
           )}
@@ -116,8 +114,8 @@ export const ListingDetail = () => {
           <div className="absolute top-4 right-4 flex gap-2">
             <button
               onClick={handleToggleSave}
-              className={`p-2.5 rounded-full backdrop-blur-md shadow-lg transition-colors ${
-                isSaved ? 'bg-rose-500 text-white' : 'bg-white/80 text-slate-800 hover:bg-white'
+              className={`p-2.5 rounded-full shadow-sm transition-colors ${
+                isSaved ? 'bg-rose-500 text-white' : 'bg-white/90 text-[#202622] hover:bg-white'
               }`}
             >
               <Bookmark className="w-4 h-4 fill-current" />
@@ -131,11 +129,13 @@ export const ListingDetail = () => {
             {images.map((img, idx) => (
               <img
                 key={idx}
-                src={img.url}
+                src={img.url || getListingFallback(listing.title)}
                 alt="thumb"
+                referrerPolicy="no-referrer"
+                onError={(e) => handleImageError(e, 'listing', listing.title)}
                 onClick={() => setActiveImageIndex(idx)}
-                className={`w-20 h-16 rounded-xl object-cover cursor-pointer transition-all border-2 ${
-                  activeImageIndex === idx ? 'border-indigo-600 scale-105' : 'border-transparent opacity-70'
+                className={`w-20 h-16 rounded-lg object-cover cursor-pointer transition-all border-2 ${
+                  activeImageIndex === idx ? 'border-[#315C4C]' : 'border-transparent opacity-70'
                 }`}
               />
             ))}
@@ -146,20 +146,20 @@ export const ListingDetail = () => {
       {/* Main Details and Sidebar layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column (8 cols): Details, Amenities, Rules */}
-        <div className="lg:col-span-8 space-y-8">
+        <div className="lg:col-span-8 space-y-6">
           <div>
-            <div className="flex items-center gap-2 text-xs font-bold text-indigo-600 uppercase tracking-wider mb-2">
+            <div className="flex items-center gap-2 text-xs font-semibold text-[#315C4C] uppercase tracking-wide mb-1.5">
               <span className="capitalize">{listing.propertyType}</span>
               <span>•</span>
               <span className="capitalize">{listing.furnishingStatus}</span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
+            <h1 className="text-2xl sm:text-3xl font-bold text-[#202622] tracking-tight mb-2">
               {listing.title}
             </h1>
 
-            <p className="text-sm text-slate-500 flex items-center gap-1.5">
-              <MapPin className="w-4 h-4 text-slate-400" />
+            <p className="text-sm text-[#737B74] flex items-center gap-1.5">
+              <MapPin className="w-4 h-4 text-[#527565]" />
               {listing.location?.address
                 ? `${listing.location.address}, `
                 : ''}
@@ -168,22 +168,22 @@ export const ListingDetail = () => {
           </div>
 
           {/* Quick Stat Blocks */}
-          <div className="grid grid-cols-3 gap-4 p-4 rounded-2xl bg-white border border-slate-100 shadow-soft">
+          <div className="grid grid-cols-3 gap-4 p-4 rounded-xl bg-white border border-[#E5E7E2] shadow-sm">
             <div>
-              <span className="text-[11px] font-semibold text-slate-400 block mb-0.5">Monthly Rent</span>
-              <span className="text-base sm:text-lg font-black text-slate-900">
+              <span className="text-[11px] font-semibold text-[#737B74] block mb-0.5">Monthly Rent</span>
+              <span className="text-base sm:text-lg font-bold text-[#202622]">
                 {formatCurrency(listing.rent)}
               </span>
             </div>
             <div>
-              <span className="text-[11px] font-semibold text-slate-400 block mb-0.5">Security Deposit</span>
-              <span className="text-base sm:text-lg font-black text-slate-900">
+              <span className="text-[11px] font-semibold text-[#737B74] block mb-0.5">Security Deposit</span>
+              <span className="text-base sm:text-lg font-bold text-[#202622]">
                 {formatCurrency(listing.securityDeposit || listing.rent * 2)}
               </span>
             </div>
             <div>
-              <span className="text-[11px] font-semibold text-slate-400 block mb-0.5">Available From</span>
-              <span className="text-base sm:text-lg font-black text-slate-900">
+              <span className="text-[11px] font-semibold text-[#737B74] block mb-0.5">Available From</span>
+              <span className="text-base sm:text-lg font-bold text-[#202622]">
                 {listing.availableFrom
                   ? new Date(listing.availableFrom).toLocaleDateString([], { month: 'short', day: 'numeric' })
                   : 'Immediately'}
@@ -193,8 +193,8 @@ export const ListingDetail = () => {
 
           {/* Description */}
           <div className="space-y-2">
-            <h3 className="text-base font-bold text-slate-900">About the flat & room</h3>
-            <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line">
+            <h3 className="text-base font-bold text-[#202622]">About the flat & room</h3>
+            <p className="text-sm text-[#737B74] leading-relaxed whitespace-pre-line bg-white p-4 rounded-xl border border-[#E5E7E2]">
               {listing.description}
             </p>
           </div>
@@ -202,14 +202,14 @@ export const ListingDetail = () => {
           {/* Amenities */}
           {listing.amenities && listing.amenities.length > 0 && (
             <div className="space-y-3">
-              <h3 className="text-base font-bold text-slate-900">Society & Flat Amenities</h3>
+              <h3 className="text-base font-bold text-[#202622]">Society & Flat Amenities</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                 {listing.amenities.map((a) => (
                   <div
                     key={a}
-                    className="p-3 rounded-xl bg-white border border-slate-100 shadow-xs flex items-center gap-2 text-xs font-semibold text-slate-700"
+                    className="p-3 rounded-lg bg-white border border-[#E5E7E2] flex items-center gap-2 text-xs font-semibold text-[#202622]"
                   >
-                    <CheckCircle className="w-4 h-4 text-emerald-500" />
+                    <CheckCircle className="w-4 h-4 text-[#315C4C]" />
                     <span>{a}</span>
                   </div>
                 ))}
@@ -220,11 +220,11 @@ export const ListingDetail = () => {
           {/* House Rules */}
           {listing.houseRules && listing.houseRules.length > 0 && (
             <div className="space-y-3">
-              <h3 className="text-base font-bold text-slate-900">House Rules</h3>
-              <ul className="space-y-2 text-xs text-slate-600">
+              <h3 className="text-base font-bold text-[#202622]">House Rules</h3>
+              <ul className="space-y-2 text-xs text-[#737B74] bg-white p-4 rounded-xl border border-[#E5E7E2]">
                 {listing.houseRules.map((r, idx) => (
                   <li key={idx} className="flex items-start gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 mt-1.5 shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#315C4C] mt-1.5 shrink-0" />
                     <span>{r}</span>
                   </li>
                 ))}
@@ -235,13 +235,13 @@ export const ListingDetail = () => {
 
         {/* Right Column (4 cols): Owner card and contact CTA */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-soft space-y-6 sticky top-24">
-            <div className="flex items-baseline justify-between border-b border-slate-100 pb-4">
+          <div className="bg-white p-6 rounded-xl border border-[#E5E7E2] shadow-sm space-y-6 sticky top-24">
+            <div className="flex items-baseline justify-between border-b border-[#E5E7E2] pb-4">
               <div>
-                <span className="text-2xl font-black text-slate-900">{formatCurrency(listing.rent)}</span>
-                <span className="text-xs text-slate-400"> / month</span>
+                <span className="text-2xl font-bold text-[#202622]">{formatCurrency(listing.rent)}</span>
+                <span className="text-xs text-[#737B74]"> / month</span>
               </div>
-              <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
+              <span className="text-xs font-semibold text-[#315C4C] bg-[#E8EAE3] px-2.5 py-0.5 rounded-md">
                 Available
               </span>
             </div>
@@ -255,18 +255,18 @@ export const ListingDetail = () => {
                   size="lg"
                 />
                 <div>
-                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+                  <span className="text-[11px] font-semibold text-[#737B74] uppercase tracking-wide block">
                     Posted By
                   </span>
-                  <h4 className="font-bold text-sm text-slate-900">{listing.owner.fullName}</h4>
-                  <p className="text-xs text-slate-500">Verified Resident / Owner</p>
+                  <h4 className="font-bold text-sm text-[#202622]">{listing.owner.fullName}</h4>
+                  <p className="text-xs text-[#737B74]">Verified Resident / Owner</p>
                 </div>
               </div>
             )}
 
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               <Link to="/discover" className="block">
-                <Button variant="gradient" size="lg" className="w-full font-bold">
+                <Button variant="primary" size="lg" className="w-full">
                   Find Roommate & Apply
                 </Button>
               </Link>
@@ -281,8 +281,8 @@ export const ListingDetail = () => {
               </Button>
             </div>
 
-            <p className="text-[11px] text-slate-400 text-center leading-normal">
-              FlatMate verifies all landlord and roommate listings to eliminate scams and duplicate broker postings.
+            <p className="text-[11px] text-[#737B74] text-center leading-normal">
+              FlatSwipe verifies all landlord and roommate listings to eliminate scams and duplicate broker postings.
             </p>
           </div>
         </div>

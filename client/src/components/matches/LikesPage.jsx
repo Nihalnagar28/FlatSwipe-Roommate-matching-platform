@@ -80,8 +80,8 @@ export const LikesPage = () => {
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
       <div>
-        <h1 className="text-2xl font-black text-slate-900 tracking-tight">Likes & Interest</h1>
-        <p className="text-xs text-slate-500 mt-1">Review people who expressed interest in living with you</p>
+        <h1 className="text-2xl font-bold text-[#202622] tracking-tight">Likes & Interest</h1>
+        <p className="text-xs text-[#737B74] mt-1">Review people who expressed interest in living with you</p>
       </div>
 
       <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
@@ -92,13 +92,13 @@ export const LikesPage = () => {
         </div>
       ) : activeTab === 'received' ? (
         receivedLikes.length === 0 ? (
-          <div className="py-16 text-center bg-white rounded-3xl border border-slate-100 p-8">
-            <Heart className="w-10 h-10 text-slate-300 mx-auto mb-2" />
-            <h3 className="text-base font-bold text-slate-900">No new incoming likes</h3>
-            <p className="text-xs text-slate-500 mt-1">Make sure your profile is 100% complete so you appear higher in discovery.</p>
+          <div className="py-16 text-center bg-white rounded-xl border border-[#E5E7E2] p-8 shadow-sm">
+            <Heart className="w-10 h-10 text-[#C8CBBC] mx-auto mb-2" />
+            <h3 className="text-base font-bold text-[#202622]">No new incoming likes</h3>
+            <p className="text-xs text-[#737B74] mt-1">Make sure your profile is 100% complete so you appear higher in discovery.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             {receivedLikes.map((item) => (
               <MiniProfileCard
                 key={item._id}
@@ -112,13 +112,13 @@ export const LikesPage = () => {
         )
       ) : activeTab === 'sent' ? (
         sentLikes.length === 0 ? (
-          <div className="py-16 text-center bg-white rounded-3xl border border-slate-100 p-8">
-            <Sparkles className="w-10 h-10 text-slate-300 mx-auto mb-2" />
-            <h3 className="text-base font-bold text-slate-900">No pending sent likes</h3>
-            <p className="text-xs text-slate-500 mt-1">Explore profiles in discovery to start connecting!</p>
+          <div className="py-16 text-center bg-white rounded-xl border border-[#E5E7E2] p-8 shadow-sm">
+            <Sparkles className="w-10 h-10 text-[#C8CBBC] mx-auto mb-2" />
+            <h3 className="text-base font-bold text-[#202622]">No pending sent likes</h3>
+            <p className="text-xs text-[#737B74] mt-1">Explore profiles in discovery to start connecting!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             {sentLikes.map((item) => (
               <MiniProfileCard
                 key={item._id}
@@ -130,13 +130,13 @@ export const LikesPage = () => {
         )
       ) : (
         superLikes.length === 0 ? (
-          <div className="py-16 text-center bg-white rounded-3xl border border-slate-100 p-8">
-            <Star className="w-10 h-10 text-slate-300 mx-auto mb-2" />
-            <h3 className="text-base font-bold text-slate-900">No super likes yet</h3>
-            <p className="text-xs text-slate-500 mt-1">Super-likes highlight top priority roommate matches.</p>
+          <div className="py-16 text-center bg-white rounded-xl border border-[#E5E7E2] p-8 shadow-sm">
+            <Star className="w-10 h-10 text-[#C8CBBC] mx-auto mb-2" />
+            <h3 className="text-base font-bold text-[#202622]">No super likes yet</h3>
+            <p className="text-xs text-[#737B74] mt-1">Super-likes highlight top priority roommate matches.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             {superLikes.map((item) => (
               <MiniProfileCard
                 key={item._id}

@@ -37,14 +37,14 @@ export const Step3Sleep = ({ initialData = {}, onNext }) => {
             <div
               key={c.id}
               onClick={() => setFormData({ ...formData, chronotype: c.id })}
-              className={`p-4 rounded-2xl border cursor-pointer transition-all ${
+              className={`p-4 rounded-xl border cursor-pointer transition-all ${
                 formData.chronotype === c.id
-                  ? 'border-indigo-600 bg-indigo-50/70 ring-2 ring-indigo-200'
-                  : 'border-slate-200 hover:border-slate-300 bg-white'
+                  ? 'border-[#315C4C] bg-[#E8EAE3] ring-1 ring-[#315C4C]/30'
+                  : 'border-[#E5E7E2] hover:border-[#C8CBBC] bg-white'
               }`}
             >
-              <h4 className="text-sm font-bold text-slate-900">{c.title}</h4>
-              <p className="text-xs text-slate-500 mt-1">{c.desc}</p>
+              <h4 className="text-sm font-bold text-[#202622]">{c.title}</h4>
+              <p className="text-xs text-[#737B74] mt-1">{c.desc}</p>
             </div>
           ))}
         </div>
@@ -94,7 +94,7 @@ export const Step3Sleep = ({ initialData = {}, onNext }) => {
       </div>
 
       <div>
-        <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+        <label className="block text-xs font-semibold text-[#737B74] uppercase tracking-wide mb-1.5">
           Typical Weekend Routine
         </label>
         <textarea
@@ -102,7 +102,7 @@ export const Step3Sleep = ({ initialData = {}, onNext }) => {
           value={formData.weekendRoutine}
           onChange={(e) => setFormData({ ...formData, weekendRoutine: e.target.value })}
           placeholder="Do you travel, host brunch, chill quietly, or game all weekend?"
-          className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
+          className="w-full rounded-lg border border-[#E5E7E2] p-3 text-sm text-[#202622] placeholder:text-[#9EA397] focus:border-[#315C4C] focus:ring-1 focus:ring-[#315C4C]"
         />
       </div>
 

@@ -51,7 +51,7 @@ export const ChatPage = () => {
   const partner = selectedMatch?.users?.find((u) => u._id !== user?._id) || selectedMatch?.users?.[0];
 
   return (
-    <div className="h-[calc(100vh-8.5rem)] bg-white rounded-3xl border border-slate-100 shadow-soft overflow-hidden flex">
+    <div className="h-[calc(100vh-8.5rem)] bg-white rounded-xl border border-[#E5E7E2] shadow-sm overflow-hidden flex">
       {/* Sidebar: Shown on desktop always, hidden on mobile if conversation selected */}
       <div className={`h-full ${selectedMatchId ? 'hidden lg:block' : 'w-full'}`}>
         <ChatSidebar

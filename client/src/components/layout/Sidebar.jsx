@@ -21,7 +21,7 @@ export const Sidebar = () => {
   }
 
   return (
-    <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-slate-100 p-4 min-h-[calc(100vh-4rem)]">
+    <aside className="hidden lg:flex flex-col w-60 bg-white border-r border-[#E5E7E2] p-4 min-h-[calc(100vh-4rem)]">
       <div className="space-y-1">
         {links.map((link) => {
           const Icon = link.icon;
@@ -30,10 +30,10 @@ export const Sidebar = () => {
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
+                `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   isActive
-                    ? 'bg-indigo-50 text-indigo-700 shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                    ? 'bg-[#E8EAE3] text-[#315C4C] font-semibold'
+                    : 'text-[#737B74] hover:text-[#202622] hover:bg-[#F8F8F5]'
                 }`
               }
             >
@@ -45,23 +45,23 @@ export const Sidebar = () => {
       </div>
 
       {user && (
-        <div className="mt-auto p-4 rounded-2xl bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-100/50">
+        <div className="mt-auto p-4 rounded-xl bg-[#F8F8F5] border border-[#E5E7E2]">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-indigo-900">Profile Completion</span>
-            <span className="text-xs font-bold text-indigo-600">
+            <span className="text-xs font-semibold text-[#202622]">Profile Completion</span>
+            <span className="text-xs font-bold text-[#315C4C]">
               {user.profileCompletionPercentage || 0}%
             </span>
           </div>
-          <div className="w-full bg-white/80 rounded-full h-2 overflow-hidden shadow-inner">
+          <div className="w-full bg-[#E5E7E2] rounded-full h-1.5 overflow-hidden">
             <div
-              className="bg-gradient-to-r from-indigo-500 to-purple-600 h-2 rounded-full transition-all duration-500"
+              className="bg-[#315C4C] h-1.5 rounded-full transition-all duration-300"
               style={{ width: `${user.profileCompletionPercentage || 0}%` }}
             />
           </div>
           {user.profileCompletionPercentage < 100 && (
             <NavLink
               to="/profile"
-              className="mt-3 block text-center text-xs font-semibold text-indigo-700 hover:text-indigo-800 hover:underline"
+              className="mt-2.5 block text-xs font-semibold text-[#315C4C] hover:text-[#27503F] hover:underline"
             >
               Complete Profile →
             </NavLink>

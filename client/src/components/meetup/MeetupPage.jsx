@@ -8,7 +8,6 @@ import {
   CheckCircle,
   XCircle,
   ArrowLeft,
-  Sparkles,
   AlertCircle,
 } from 'lucide-react';
 import { meetupAPI, matchAPI } from '../../services/api';
@@ -120,36 +119,36 @@ export const MeetupPage = () => {
   const activeMeetup = meetups[0];
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pb-12">
+    <div className="max-w-4xl mx-auto space-y-6 pb-12">
       {/* Header with back */}
       <div className="flex items-center justify-between">
         <button
           onClick={() => navigate(-1)}
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#737B74] hover:text-[#202622] transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Match
         </button>
 
-        <span className="text-xs font-bold text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full">
+        <span className="text-xs font-semibold text-[#315C4C] bg-[#E8EAE3] px-3 py-1 rounded-full">
           Meet Before You Move
         </span>
       </div>
 
       {/* Hero Match Summary */}
-      <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-soft flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="bg-white p-6 rounded-xl border border-[#E5E7E2] shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-4 text-center sm:text-left">
           <Avatar
             src={partner?.profilePicture}
             name={partner?.fullName}
             size="xl"
-            className="ring-2 ring-indigo-100"
+            className="ring-2 ring-[#E5E7E2]"
           />
           <div>
-            <h2 className="text-xl font-bold text-slate-900">
+            <h2 className="text-xl font-bold text-[#202622]">
               Meetup with {partner?.fullName}
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-[#737B74] mt-0.5">
               {match?.compatibilityScore || 90}% Compatibility • Always meet in public places like a cafe
             </p>
           </div>
@@ -157,7 +156,7 @@ export const MeetupPage = () => {
 
         <Button
           onClick={() => setShowProposalForm(!showProposalForm)}
-          variant="gradient"
+          variant="primary"
           size="md"
         >
           <Coffee className="w-4 h-4 mr-2" />
@@ -169,9 +168,9 @@ export const MeetupPage = () => {
       {showProposalForm && (
         <form
           onSubmit={handlePropose}
-          className="bg-white p-6 rounded-3xl border border-indigo-100 shadow-soft space-y-4"
+          className="bg-white p-6 rounded-xl border border-[#E5E7E2] shadow-sm space-y-4"
         >
-          <h3 className="text-base font-bold text-slate-900">Suggest a Coffee Meetup</h3>
+          <h3 className="text-base font-bold text-[#202622]">Suggest a Coffee Meetup</h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
@@ -195,7 +194,7 @@ export const MeetupPage = () => {
 
           <Input
             label="Public Meeting Location"
-            placeholder="e.g. Third Wave Coffee, 12th Main Indiranagar"
+            placeholder="e.g. Blue Tokai Coffee, Indiranagar 100ft Road"
             value={formData.location}
             onChange={(e) => setFormData({ ...formData, location: e.target.value })}
             icon={MapPin}
@@ -217,31 +216,31 @@ export const MeetupPage = () => {
 
       {/* Active / Existing Meetup Status Card */}
       {activeMeetup && (
-        <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-soft space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+        <div className="bg-white p-6 rounded-xl border border-[#E5E7E2] shadow-sm space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E5E7E2] pb-4">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <span className="text-xs font-semibold uppercase tracking-wide text-[#737B74]">
                   Scheduled Meetup
                 </span>
                 <span
-                  className={`text-xs font-extrabold px-2.5 py-0.5 rounded-full capitalize ${
+                  className={`text-xs font-bold px-2.5 py-0.5 rounded-full capitalize ${
                     activeMeetup.status === 'accepted'
                       ? 'bg-emerald-100 text-emerald-800'
                       : activeMeetup.status === 'pending'
-                      ? 'bg-amber-100 text-amber-800'
-                      : 'bg-rose-100 text-rose-800'
+                      ? 'bg-[#FEF3E2] text-[#D9A16A]'
+                      : 'bg-red-100 text-[#C0392B]'
                   }`}
                 >
                   {activeMeetup.status}
                 </span>
               </div>
 
-              <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-indigo-600" />
+              <h3 className="text-lg font-bold text-[#202622] flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-[#315C4C]" />
                 {activeMeetup.location}
               </h3>
-              <p className="text-xs text-slate-500 mt-1 flex items-center gap-2">
+              <p className="text-xs text-[#737B74] mt-1 flex items-center gap-2">
                 <Calendar className="w-3.5 h-3.5" />
                 {new Date(activeMeetup.proposedDate).toLocaleDateString([], {
                   weekday: 'short',
@@ -260,7 +259,7 @@ export const MeetupPage = () => {
                     onClick={() => handleRespond(activeMeetup._id, 'declined')}
                     variant="secondary"
                     size="sm"
-                    className="text-rose-600"
+                    className="text-[#C0392B] border-red-200"
                   >
                     <XCircle className="w-4 h-4 mr-1" />
                     Decline
@@ -278,7 +277,7 @@ export const MeetupPage = () => {
           </div>
 
           {activeMeetup.message && (
-            <p className="text-xs text-slate-600 italic bg-slate-50 p-3 rounded-xl border border-slate-100">
+            <p className="text-xs text-[#737B74] italic bg-[#F8F8F5] p-3 rounded-lg border border-[#E5E7E2]">
               "{activeMeetup.message}"
             </p>
           )}
@@ -292,12 +291,12 @@ export const MeetupPage = () => {
       )}
 
       {/* Safety guidelines note */}
-      <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 text-amber-900 text-xs flex items-start gap-3">
-        <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+      <div className="p-4 rounded-xl bg-[#FEF3E2] border border-[#D9A16A]/30 text-[#9A6B30] text-xs flex items-start gap-3">
+        <AlertCircle className="w-5 h-5 text-[#D9A16A] shrink-0 mt-0.5" />
         <div className="space-y-1">
           <p className="font-bold">Meet Safely & Protect Your Finances</p>
-          <p className="text-amber-800 leading-relaxed">
-            Never transfer security deposits or rent cash before physically inspecting the property and meeting the flatmates in person. Always verify lease documentation.
+          <p className="leading-relaxed">
+            Never transfer security deposits or rent cash before physically inspecting the property and meeting flatmates in person. Always verify lease documentation.
           </p>
         </div>
       </div>

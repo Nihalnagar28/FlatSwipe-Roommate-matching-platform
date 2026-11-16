@@ -1,9 +1,9 @@
 import React from 'react';
-import { Sparkles, MapPin, Heart, X, MessageSquare, CheckCircle } from 'lucide-react';
+import { MapPin, Heart, X, MessageSquare, CheckCircle } from 'lucide-react';
 import { Card } from '../ui/Card';
-import { Avatar } from '../ui/Avatar';
 import { Button } from '../ui/Button';
-import { formatCurrency, getCompatibilityBadgeColor } from '../../utils/helpers';
+import { formatCurrency } from '../../utils/helpers';
+import { getProfileFallback, handleImageError } from '../../utils/imageFallback';
 
 export const MiniProfileCard = ({
   user,
@@ -19,42 +19,44 @@ export const MiniProfileCard = ({
   return (
     <Card className="p-4 flex flex-col justify-between" hover>
       <div>
-        <div className="relative h-44 rounded-2xl overflow-hidden mb-3 bg-slate-100">
+        <div className="relative h-44 rounded-lg overflow-hidden mb-3 bg-[#E8EAE3]">
           <img
-            src={user.profilePicture || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400'}
+            src={user.profilePicture || getProfileFallback(user.fullName)}
             alt={user.fullName}
+            referrerPolicy="no-referrer"
+            onError={(e) => handleImageError(e, 'profile', user.fullName)}
             className="w-full h-full object-cover"
           />
-          <div className="absolute top-2.5 right-2.5 bg-emerald-600 text-white font-extrabold text-[11px] px-2.5 py-0.5 rounded-full shadow-md">
+          <div className="absolute top-2.5 right-2.5 bg-[#315C4C] text-white font-bold text-[11px] px-2.5 py-0.5 rounded-full shadow-sm">
             {compatibilityScore}% Match
           </div>
         </div>
 
         <div className="flex items-center gap-1.5 mb-1">
-          <h4 className="font-bold text-sm text-slate-900 truncate">{user.fullName}</h4>
-          <span className="text-xs font-semibold text-slate-500">{user.age}</span>
+          <h4 className="font-bold text-sm text-[#202622] truncate">{user.fullName}</h4>
+          <span className="text-xs font-semibold text-[#737B74]">{user.age}</span>
           {user.verificationBadge && (
-            <CheckCircle className="w-3.5 h-3.5 text-indigo-600 fill-indigo-100 shrink-0" />
+            <CheckCircle className="w-3.5 h-3.5 text-[#315C4C] fill-[#E8EAE3] shrink-0" />
           )}
         </div>
 
-        <p className="text-xs text-slate-500 truncate mb-1">
+        <p className="text-xs text-[#737B74] truncate mb-1">
           {user.occupation} • {user.currentCity}
         </p>
 
-        <p className="text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md inline-block mb-3">
-          {formatCurrency(user.budgetMin)} - {formatCurrency(user.budgetMax)}
+        <p className="text-[11px] font-semibold text-[#315C4C] bg-[#E8EAE3] px-2 py-0.5 rounded-md inline-block mb-3">
+          {formatCurrency(user.budgetMin)} – {formatCurrency(user.budgetMax)}
         </p>
       </div>
 
-      <div className="pt-2 border-t border-slate-100">
+      <div className="pt-2 border-t border-[#E5E7E2]">
         {type === 'received-like' ? (
           <div className="grid grid-cols-2 gap-2">
             <Button
               onClick={onReject}
               variant="secondary"
               size="sm"
-              className="w-full text-xs text-rose-600 hover:bg-rose-50"
+              className="w-full text-xs text-[#C0392B] hover:bg-red-50 border-red-200"
             >
               <X className="w-3.5 h-3.5 mr-1" />
               Pass
@@ -94,7 +96,7 @@ export const MiniProfileCard = ({
             onClick={onViewProfile}
             variant="secondary"
             size="sm"
-            className="w-full text-xs text-slate-500"
+            className="w-full text-xs text-[#737B74]"
           >
             Pending Response
           </Button>

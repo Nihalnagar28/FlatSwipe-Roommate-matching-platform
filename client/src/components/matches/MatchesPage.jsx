@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Heart, MessageSquare, Coffee, Trash2, Sparkles, MapPin } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Heart, MessageSquare, Coffee, Trash2, CheckCircle, Sparkles, MapPin } from 'lucide-react';
 import { matchAPI } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
-import { Card } from '../ui/Card';
 import { Avatar } from '../ui/Avatar';
 import { Button } from '../ui/Button';
+import { Card } from '../ui/Card';
 import { Spinner } from '../ui/Spinner';
-import { formatCurrency, formatRelativeTime } from '../../utils/helpers';
-import { FullProfileModal } from '../discovery/FullProfileModal';
 
 export const MatchesPage = () => {
   const { user } = useAuth();
@@ -16,7 +14,6 @@ export const MatchesPage = () => {
 
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedMatch, setSelectedMatch] = useState(null);
 
   useEffect(() => {
     fetchMatches();
@@ -37,11 +34,9 @@ export const MatchesPage = () => {
   };
 
   const handleUnmatch = async (matchId) => {
-    if (!window.confirm('Are you sure you want to unmatch? This conversation will be permanently closed.')) {
-      return;
-    }
+    if (!window.confirm('Are you sure you want to unmatch? This removes the conversation.')) return;
     try {
-      await matchAPI.unmatch(matchId);
+      await matchAPI.unmatchUser(matchId);
       setMatches((prev) => prev.filter((m) => m._id !== matchId));
     } catch (err) {
       console.error('Unmatch error:', err);
@@ -52,11 +47,11 @@ export const MatchesPage = () => {
     <div className="space-y-6 max-w-6xl mx-auto">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-            <Heart className="w-6 h-6 text-rose-500 fill-rose-100" />
+          <h1 className="text-2xl font-bold text-[#202622] tracking-tight flex items-center gap-2">
+            <Heart className="w-5 h-5 text-[#315C4C] fill-[#E8EAE3]" />
             Mutual Matches
           </h1>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-[#737B74] mt-1">
             People who mutually liked your profile. You can message each other directly!
           </p>
         </div>
@@ -74,22 +69,22 @@ export const MatchesPage = () => {
           <Spinner size="lg" />
         </div>
       ) : matches.length === 0 ? (
-        <div className="bg-white rounded-3xl p-12 text-center border border-slate-100 max-w-md mx-auto shadow-soft">
-          <div className="w-16 h-16 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center mx-auto mb-4">
-            <Heart className="w-8 h-8" />
+        <div className="bg-white rounded-xl p-10 text-center border border-[#E5E7E2] max-w-md mx-auto shadow-sm">
+          <div className="w-14 h-14 rounded-xl bg-[#E8EAE3] text-[#315C4C] flex items-center justify-center mx-auto mb-4">
+            <Heart className="w-7 h-7" />
           </div>
-          <h3 className="text-lg font-black text-slate-900 mb-1">No mutual matches yet</h3>
-          <p className="text-xs text-slate-500 leading-relaxed mb-6">
+          <h3 className="text-base font-bold text-[#202622] mb-1">No mutual matches yet</h3>
+          <p className="text-xs text-[#737B74] leading-relaxed mb-6">
             When you and someone else both swipe right, your match will appear here so you can chat and plan a meetup.
           </p>
           <Link to="/discover">
-            <Button variant="gradient" size="lg" className="mx-auto">
+            <Button variant="primary" size="lg" className="mx-auto">
               Start Swiping in Discovery
             </Button>
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {matches.map((match) => {
             const partner = match.users?.find((u) => u._id !== user?._id) || match.users?.[0];
             if (!partner) return null;
@@ -108,33 +103,33 @@ export const MatchesPage = () => {
                       />
                       <div>
                         <div className="flex items-center gap-1.5">
-                          <h3 className="font-extrabold text-base text-slate-900">{partner.fullName}</h3>
-                          <span className="text-xs font-semibold text-slate-500">{partner.age}</span>
+                          <h3 className="font-bold text-sm text-[#202622]">{partner.fullName}</h3>
+                          <span className="text-xs font-semibold text-[#737B74]">{partner.age}</span>
                         </div>
-                        <p className="text-xs text-slate-500">{partner.occupation}</p>
-                        <p className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
-                          <MapPin className="w-3 h-3" />
+                        <p className="text-xs text-[#737B74]">{partner.occupation}</p>
+                        <p className="text-[11px] text-[#737B74] flex items-center gap-1 mt-0.5">
+                          <MapPin className="w-3 h-3 text-[#527565]" />
                           {partner.currentCity}
                         </p>
                       </div>
                     </div>
 
-                    <div className="bg-emerald-50 text-emerald-700 font-extrabold text-xs px-2.5 py-1 rounded-xl border border-emerald-200 shrink-0">
+                    <div className="bg-[#E8EAE3] text-[#315C4C] font-bold text-xs px-2.5 py-0.5 rounded-full shrink-0">
                       {match.compatibilityScore || 88}% Match
                     </div>
                   </div>
 
                   {/* Last message preview */}
-                  <div className="p-3 rounded-2xl bg-slate-50 text-xs mb-4">
-                    <span className="text-slate-400 font-medium block mb-0.5">Last Message</span>
-                    <p className="text-slate-700 line-clamp-1 italic">
+                  <div className="p-3 rounded-lg bg-[#F8F8F5] text-xs mb-4 border border-[#E5E7E2]">
+                    <span className="text-[#737B74] font-medium block mb-0.5 text-[11px]">Last Message</span>
+                    <p className="text-[#202622] line-clamp-1 italic">
                       {match.lastMessage?.content || 'Say hello and introduce yourself!'}
                     </p>
                   </div>
                 </div>
 
                 {/* Actions row */}
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                <div className="pt-3 border-t border-[#E5E7E2] flex items-center justify-between gap-2">
                   <div className="flex gap-2">
                     <Button
                       onClick={() => navigate(`/messages?match=${match._id}`)}
@@ -150,7 +145,7 @@ export const MatchesPage = () => {
                       onClick={() => navigate(`/meetup/${match._id}`)}
                       variant="secondary"
                       size="sm"
-                      className="text-xs text-indigo-700"
+                      className="text-xs"
                     >
                       <Coffee className="w-3.5 h-3.5 mr-1" />
                       Meetup
@@ -159,7 +154,7 @@ export const MatchesPage = () => {
 
                   <button
                     onClick={() => handleUnmatch(match._id)}
-                    className="p-2 text-slate-400 hover:text-rose-600 rounded-xl hover:bg-rose-50 transition-colors"
+                    className="p-2 text-[#737B74] hover:text-[#C0392B] rounded-lg hover:bg-red-50 transition-colors"
                     title="Unmatch"
                   >
                     <Trash2 className="w-4 h-4" />

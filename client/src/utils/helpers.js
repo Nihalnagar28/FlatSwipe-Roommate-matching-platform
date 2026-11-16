@@ -18,17 +18,17 @@ export const getInitials = (name) => {
 };
 
 export const getCompatibilityBadgeColor = (score) => {
-  if (score >= 85) return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-  if (score >= 70) return 'bg-indigo-100 text-indigo-800 border-indigo-200';
-  if (score >= 50) return 'bg-amber-100 text-amber-800 border-amber-200';
-  return 'bg-rose-100 text-rose-800 border-rose-200';
+  if (score >= 85) return 'bg-[#E8EAE3] text-[#315C4C] border-[#315C4C]/20';
+  if (score >= 70) return 'bg-[#E8EAE3] text-[#527565] border-[#527565]/20';
+  if (score >= 50) return 'bg-[#D9A16A]/15 text-[#9A622A] border-[#D9A16A]/30';
+  return 'bg-stone-100 text-[#737B74] border-[#E5E7E2]';
 };
 
 export const getCompatibilityGradient = (score) => {
-  if (score >= 85) return 'from-emerald-500 to-teal-600';
-  if (score >= 70) return 'from-indigo-500 to-purple-600';
-  if (score >= 50) return 'from-amber-500 to-orange-600';
-  return 'from-rose-500 to-red-600';
+  if (score >= 85) return 'from-[#315C4C] to-[#527565]';
+  if (score >= 70) return 'from-[#527565] to-[#737B74]';
+  if (score >= 50) return 'from-[#D9A16A] to-[#B37F4A]';
+  return 'from-[#737B74] to-stone-400';
 };
 
 export const formatRelativeTime = (date) => {

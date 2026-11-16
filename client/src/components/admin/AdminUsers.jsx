@@ -3,7 +3,7 @@ import { adminAPI } from '../../services/api';
 import { Avatar } from '../ui/Avatar';
 import { Button } from '../ui/Button';
 import { Spinner } from '../ui/Spinner';
-import { CheckCircle, XCircle } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 
 export const AdminUsers = () => {
   const [users, setUsers] = useState([]);
@@ -50,14 +50,17 @@ export const AdminUsers = () => {
   }
 
   return (
-    <div className="bg-white rounded-3xl border border-slate-100 shadow-soft overflow-hidden">
-      <div className="p-4 sm:p-6 border-b border-slate-100 flex items-center justify-between">
-        <h3 className="text-base font-bold text-slate-900">User Management ({users.length})</h3>
+    <div className="bg-white rounded-xl border border-[#E5E7E2] shadow-sm overflow-hidden">
+      <div className="p-4 sm:p-5 border-b border-[#E5E7E2] flex items-center justify-between">
+        <div>
+          <h3 className="text-sm font-bold text-[#202622]">Registered Users</h3>
+          <p className="text-xs text-[#737B74] mt-0.5">{users.length} accounts loaded</p>
+        </div>
       </div>
 
       <div className="overflow-x-auto">
         <table className="w-full text-left text-xs">
-          <thead className="bg-slate-50 text-slate-400 font-bold uppercase tracking-wider border-b border-slate-100">
+          <thead className="bg-[#F8F8F5] text-[#737B74] font-semibold uppercase tracking-wider border-b border-[#E5E7E2]">
             <tr>
               <th className="py-3 px-4">User</th>
               <th className="py-3 px-4">City</th>
@@ -67,37 +70,45 @@ export const AdminUsers = () => {
               <th className="py-3 px-4 text-right">Action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-[#E5E7E2]">
             {users.map((u) => (
-              <tr key={u._id} className="hover:bg-slate-50/70 transition-colors">
+              <tr key={u._id} className="hover:bg-[#F8F8F5]/80 transition-colors">
                 <td className="py-3.5 px-4 flex items-center gap-3">
                   <Avatar src={u.profilePicture} name={u.fullName} size="sm" />
                   <div>
-                    <span className="font-bold text-slate-900 block">{u.fullName}</span>
-                    <span className="text-[11px] text-slate-400">{u.email}</span>
+                    <span className="font-semibold text-[#202622] block">{u.fullName}</span>
+                    <span className="text-[11px] text-[#737B74]">{u.email}</span>
                   </div>
                 </td>
-                <td className="py-3.5 px-4 text-slate-600">{u.currentCity || '—'}</td>
+                <td className="py-3.5 px-4 text-[#737B74]">{u.currentCity || '—'}</td>
                 <td className="py-3.5 px-4">
-                  <span className={`px-2 py-0.5 rounded-md font-bold uppercase text-[10px] ${
-                    u.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-slate-100 text-slate-600'
-                  }`}>
+                  <span
+                    className={`px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wide ${
+                      u.role === 'admin'
+                        ? 'bg-[#E8EAE3] text-[#315C4C]'
+                        : 'bg-[#F8F8F5] text-[#737B74] border border-[#E5E7E2]'
+                    }`}
+                  >
                     {u.role}
                   </span>
                 </td>
                 <td className="py-3.5 px-4">
                   {u.verificationBadge ? (
-                    <span className="text-emerald-600 font-semibold flex items-center gap-1">
-                      <CheckCircle className="w-3.5 h-3.5" /> Yes
+                    <span className="text-[#315C4C] font-semibold flex items-center gap-1">
+                      <CheckCircle className="w-3.5 h-3.5 text-[#315C4C]" /> Verified
                     </span>
                   ) : (
-                    <span className="text-slate-400">No</span>
+                    <span className="text-[#737B74]">Pending</span>
                   )}
                 </td>
                 <td className="py-3.5 px-4">
-                  <span className={`px-2 py-0.5 rounded-md font-semibold text-[11px] ${
-                    u.isActive ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'
-                  }`}>
+                  <span
+                    className={`px-2 py-0.5 rounded text-[11px] font-semibold ${
+                      u.isActive
+                        ? 'bg-[#E8EAE3] text-[#315C4C]'
+                        : 'bg-rose-50 text-rose-700'
+                    }`}
+                  >
                     {u.isActive ? 'Active' : 'Suspended'}
                   </span>
                 </td>
@@ -105,9 +116,9 @@ export const AdminUsers = () => {
                   {u.role !== 'admin' && (
                     <Button
                       onClick={() => handleToggleStatus(u)}
-                      variant={u.isActive ? 'secondary' : 'primary'}
+                      variant={u.isActive ? 'outline' : 'primary'}
                       size="sm"
-                      className="text-xs"
+                      className="text-xs py-1 px-2.5 h-auto"
                     >
                       {u.isActive ? 'Deactivate' : 'Activate'}
                     </Button>

@@ -10,7 +10,6 @@ import {
   Edit2,
   Save,
   AlertCircle,
-  Upload,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { userAPI, verificationAPI } from '../../services/api';
@@ -90,7 +89,7 @@ export const ProfilePage = () => {
     try {
       const res = await verificationAPI.requestVerification({
         type: idType,
-        documentUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=600', // sample verified doc hash
+        documentUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=600',
       });
       if (res.data.success) {
         setVerificationRequested(true);
@@ -104,22 +103,22 @@ export const ProfilePage = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pb-12">
+    <div className="max-w-4xl mx-auto space-y-6 pb-12">
       {/* Top Banner & Avatar */}
-      <div className="bg-white rounded-3xl border border-slate-100 shadow-soft p-6 sm:p-8">
-        <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 pb-6 border-b border-slate-100">
+      <div className="bg-white rounded-xl border border-[#E5E7E2] shadow-sm p-6 sm:p-8">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 pb-6 border-b border-[#E5E7E2]">
           <div className="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
             <div className="relative">
               <Avatar
                 src={user?.profilePicture}
                 name={user?.fullName}
                 size="2xl"
-                className="ring-4 ring-indigo-50 shadow-md"
+                className="ring-4 ring-[#E8EAE3] shadow-sm"
               />
               <button
                 type="button"
                 onClick={() => setEditing(true)}
-                className="absolute bottom-0 right-0 p-2 rounded-full bg-indigo-600 text-white shadow-md hover:bg-indigo-700 transition-colors"
+                className="absolute bottom-0 right-0 p-2 rounded-full bg-[#315C4C] text-white shadow-sm hover:bg-[#27503F] transition-colors"
                 title="Change Photo"
               >
                 <Camera className="w-4 h-4" />
@@ -128,16 +127,16 @@ export const ProfilePage = () => {
 
             <div>
               <div className="flex items-center justify-center sm:justify-start gap-2">
-                <h1 className="text-2xl font-black text-slate-900">{user?.fullName}</h1>
+                <h1 className="text-2xl font-bold text-[#202622]">{user?.fullName}</h1>
                 {user?.verificationBadge && (
-                  <CheckCircle className="w-5 h-5 text-indigo-600 fill-indigo-100 shrink-0" />
+                  <CheckCircle className="w-5 h-5 text-[#315C4C] fill-[#E8EAE3] shrink-0" />
                 )}
               </div>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs text-[#737B74] mt-0.5">
                 {user?.occupation} {user?.company ? `@ ${user?.company}` : ''} • {user?.currentCity}
               </p>
-              <p className="text-xs text-indigo-600 font-bold mt-1.5">
-                {formatCurrency(user?.budgetMin)} - {formatCurrency(user?.budgetMax)} / month budget
+              <p className="text-xs text-[#315C4C] font-semibold mt-1.5 bg-[#E8EAE3] px-2.5 py-0.5 rounded-md inline-block">
+                {formatCurrency(user?.budgetMin)} – {formatCurrency(user?.budgetMax)} / month budget
               </p>
             </div>
           </div>
@@ -162,39 +161,39 @@ export const ProfilePage = () => {
         <div className="pt-6">
           <ProgressBar
             progress={user?.profileCompletionPercentage || 90}
-            label="Profile Harmony Strength"
+            label="Profile Completion"
           />
         </div>
       </div>
 
       {successMsg && (
-        <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2">
+        <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2">
           <CheckCircle className="w-4 h-4 text-emerald-600" />
           <span>{successMsg}</span>
         </div>
       )}
 
       {/* Identity Verification Trust Card */}
-      <div className="bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-900 text-white p-6 rounded-3xl shadow-card flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div className="bg-[#315C4C] text-white p-6 rounded-xl shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-4 text-center sm:text-left">
-          <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-indigo-300 shrink-0">
+          <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-[#D5E5DC] shrink-0">
             <ShieldCheck className="w-7 h-7" />
           </div>
           <div>
             <h3 className="text-base font-bold text-white flex items-center justify-center sm:justify-start gap-2">
               Government ID Verification
               {user?.verificationBadge ? (
-                <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-500 text-white">
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500 text-white">
                   Verified
                 </span>
               ) : (
-                <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-amber-400 text-slate-900">
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#D9A16A] text-white">
                   Unverified
                 </span>
               )}
             </h3>
-            <p className="text-xs text-indigo-200 mt-0.5">
-              Verified members get 3x more match responses. Documents are strictly encrypted and never shared.
+            <p className="text-xs text-[#D5E5DC] mt-0.5">
+              Verified members get 3x more match responses. Documents are encrypted and never publicly exposed.
             </p>
           </div>
         </div>
@@ -202,15 +201,14 @@ export const ProfilePage = () => {
         {!user?.verificationBadge && (
           <div className="shrink-0">
             {verificationRequested ? (
-              <span className="text-xs font-bold px-4 py-2 rounded-xl bg-white/10 text-emerald-300">
+              <span className="text-xs font-semibold px-4 py-2 rounded-lg bg-white/10 text-emerald-300">
                 ✓ Verification Pending Review
               </span>
             ) : (
               <Button
                 onClick={handleRequestVerification}
-                variant="primary"
+                variant="white"
                 size="md"
-                className="bg-white text-indigo-950 hover:bg-slate-100 font-bold shadow-md"
                 loading={verificationLoading}
               >
                 Submit ID For Review
@@ -222,8 +220,8 @@ export const ProfilePage = () => {
 
       {/* Edit Form or View Cards */}
       {editing ? (
-        <form onSubmit={handleSaveProfile} className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-soft space-y-6">
-          <h3 className="text-base font-bold text-slate-900">Edit Personal & Living Preferences</h3>
+        <form onSubmit={handleSaveProfile} className="bg-white p-6 sm:p-8 rounded-xl border border-[#E5E7E2] shadow-sm space-y-6">
+          <h3 className="text-base font-bold text-[#202622]">Edit Personal & Living Preferences</h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
@@ -267,7 +265,7 @@ export const ProfilePage = () => {
             label="Preferred Areas"
             value={formData.preferredLocations}
             onChange={(e) => setFormData({ ...formData, preferredLocations: e.target.value })}
-            helperText="Comma separated"
+            helperText="Comma separated list of neighborhoods"
           />
 
           <Input
@@ -278,14 +276,14 @@ export const ProfilePage = () => {
           />
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-[#737B74] uppercase tracking-wide mb-1.5">
               Short Bio
             </label>
             <textarea
               rows={3}
               value={formData.bio}
               onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-              className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600"
+              className="w-full rounded-lg border border-[#E5E7E2] p-3 text-sm text-[#202622] placeholder:text-[#9EA397] focus:border-[#315C4C] focus:ring-1 focus:ring-[#315C4C]"
             />
           </div>
 
@@ -324,7 +322,7 @@ export const ProfilePage = () => {
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+          <div className="flex justify-end gap-3 pt-4 border-t border-[#E5E7E2]">
             <Button
               type="button"
               onClick={() => setEditing(false)}
@@ -346,57 +344,57 @@ export const ProfilePage = () => {
         /* Read Only Overview */
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <Card className="p-6 space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-800">
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-[#737B74]">
               Living & Sleep Habits
             </h3>
             <div className="space-y-2 text-xs">
-              <div className="flex justify-between py-1 border-b border-slate-50">
-                <span className="text-slate-400">Chronotype:</span>
-                <span className="font-bold text-slate-700 capitalize">{user?.chronotype || 'Flexible'}</span>
+              <div className="flex justify-between py-1.5 border-b border-[#E5E7E2]">
+                <span className="text-[#737B74]">Chronotype:</span>
+                <span className="font-semibold text-[#202622] capitalize">{user?.chronotype || 'Flexible'}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-50">
-                <span className="text-slate-400">Sleep Time:</span>
-                <span className="font-bold text-slate-700">{user?.sleepTime || '23:30'}</span>
+              <div className="flex justify-between py-1.5 border-b border-[#E5E7E2]">
+                <span className="text-[#737B74]">Sleep Time:</span>
+                <span className="font-semibold text-[#202622]">{user?.sleepTime || '23:30'}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-50">
-                <span className="text-slate-400">Wake Time:</span>
-                <span className="font-bold text-slate-700">{user?.wakeTime || '07:30'}</span>
+              <div className="flex justify-between py-1.5 border-b border-[#E5E7E2]">
+                <span className="text-[#737B74]">Wake Time:</span>
+                <span className="font-semibold text-[#202622]">{user?.wakeTime || '07:30'}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-50">
-                <span className="text-slate-400">Cleanliness:</span>
-                <span className="font-bold text-slate-700 capitalize">{user?.cleanlinessLevel || 'Very clean'}</span>
+              <div className="flex justify-between py-1.5 border-b border-[#E5E7E2]">
+                <span className="text-[#737B74]">Cleanliness:</span>
+                <span className="font-semibold text-[#202622] capitalize">{user?.cleanlinessLevel || 'Very clean'}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-50">
-                <span className="text-slate-400">Dishwashing:</span>
-                <span className="font-bold text-slate-700 capitalize">{user?.dishWashing || 'Immediately'}</span>
+              <div className="flex justify-between py-1.5 border-b border-[#E5E7E2]">
+                <span className="text-[#737B74]">Dishwashing:</span>
+                <span className="font-semibold text-[#202622] capitalize">{user?.dishWashing || 'Immediately'}</span>
               </div>
             </div>
           </Card>
 
           <Card className="p-6 space-y-4">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-800">
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-[#737B74]">
               Lifestyle & Atmosphere
             </h3>
             <div className="space-y-2 text-xs">
-              <div className="flex justify-between py-1 border-b border-slate-50">
-                <span className="text-slate-400">Smoking:</span>
-                <span className="font-bold text-slate-700 capitalize">{user?.smokingHabit || 'Never'}</span>
+              <div className="flex justify-between py-1.5 border-b border-[#E5E7E2]">
+                <span className="text-[#737B74]">Smoking:</span>
+                <span className="font-semibold text-[#202622] capitalize">{user?.smokingHabit || 'Never'}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-50">
-                <span className="text-slate-400">Drinking:</span>
-                <span className="font-bold text-slate-700 capitalize">{user?.drinkingHabit || 'Occasionally'}</span>
+              <div className="flex justify-between py-1.5 border-b border-[#E5E7E2]">
+                <span className="text-[#737B74]">Drinking:</span>
+                <span className="font-semibold text-[#202622] capitalize">{user?.drinkingHabit || 'Occasionally'}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-50">
-                <span className="text-slate-400">Pets:</span>
-                <span className="font-bold text-slate-700">{user?.hasPets ? (user.petType || 'Has Pets') : 'None'}</span>
+              <div className="flex justify-between py-1.5 border-b border-[#E5E7E2]">
+                <span className="text-[#737B74]">Pets:</span>
+                <span className="font-semibold text-[#202622]">{user?.hasPets ? (user.petType || 'Has Pets') : 'None'}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-50">
-                <span className="text-slate-400">Vibe:</span>
-                <span className="font-bold text-slate-700 capitalize">{user?.environmentPreference || 'Balanced'}</span>
+              <div className="flex justify-between py-1.5 border-b border-[#E5E7E2]">
+                <span className="text-[#737B74]">Vibe:</span>
+                <span className="font-semibold text-[#202622] capitalize">{user?.environmentPreference || 'Balanced'}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-slate-50">
-                <span className="text-slate-400">Personality:</span>
-                <span className="font-bold text-slate-700 capitalize">{user?.personalityType || 'Ambivert'}</span>
+              <div className="flex justify-between py-1.5 border-b border-[#E5E7E2]">
+                <span className="text-[#737B74]">Personality:</span>
+                <span className="font-semibold text-[#202622] capitalize">{user?.personalityType || 'Ambivert'}</span>
               </div>
             </div>
           </Card>

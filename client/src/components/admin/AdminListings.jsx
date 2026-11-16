@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { adminAPI } from '../../services/api';
 import { Button } from '../ui/Button';
 import { Spinner } from '../ui/Spinner';
-import { ShieldCheck, MapPin } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import { formatCurrency } from '../../utils/helpers';
 
 export const AdminListings = () => {
@@ -49,14 +49,17 @@ export const AdminListings = () => {
   }
 
   return (
-    <div className="bg-white rounded-3xl border border-slate-100 shadow-soft overflow-hidden">
-      <div className="p-4 sm:p-6 border-b border-slate-100 flex items-center justify-between">
-        <h3 className="text-base font-bold text-slate-900">Listings Moderation ({listings.length})</h3>
+    <div className="bg-white rounded-xl border border-[#E5E7E2] shadow-sm overflow-hidden">
+      <div className="p-4 sm:p-5 border-b border-[#E5E7E2] flex items-center justify-between">
+        <div>
+          <h3 className="text-sm font-bold text-[#202622]">Listings Moderation</h3>
+          <p className="text-xs text-[#737B74] mt-0.5">{listings.length} properties submitted</p>
+        </div>
       </div>
 
       <div className="overflow-x-auto">
         <table className="w-full text-left text-xs">
-          <thead className="bg-slate-50 text-slate-400 font-bold uppercase tracking-wider border-b border-slate-100">
+          <thead className="bg-[#F8F8F5] text-[#737B74] font-semibold uppercase tracking-wider border-b border-[#E5E7E2]">
             <tr>
               <th className="py-3 px-4">Title & Area</th>
               <th className="py-3 px-4">City</th>
@@ -66,31 +69,31 @@ export const AdminListings = () => {
               <th className="py-3 px-4 text-right">Moderate</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-[#E5E7E2]">
             {listings.map((l) => (
-              <tr key={l._id} className="hover:bg-slate-50/70 transition-colors">
+              <tr key={l._id} className="hover:bg-[#F8F8F5]/80 transition-colors">
                 <td className="py-3.5 px-4">
-                  <span className="font-bold text-slate-900 block line-clamp-1">{l.title}</span>
-                  <span className="text-[11px] text-slate-400">{l.location?.area}</span>
+                  <span className="font-semibold text-[#202622] block line-clamp-1">{l.title}</span>
+                  <span className="text-[11px] text-[#737B74]">{l.location?.area}</span>
                 </td>
-                <td className="py-3.5 px-4 text-slate-600">{l.location?.city}</td>
-                <td className="py-3.5 px-4 font-bold text-slate-800">{formatCurrency(l.rent)}</td>
-                <td className="py-3.5 px-4 text-slate-600">{l.owner?.fullName || '—'}</td>
+                <td className="py-3.5 px-4 text-[#737B74]">{l.location?.city}</td>
+                <td className="py-3.5 px-4 font-bold text-[#202622]">{formatCurrency(l.rent)}</td>
+                <td className="py-3.5 px-4 text-[#737B74]">{l.owner?.fullName || '—'}</td>
                 <td className="py-3.5 px-4">
                   {l.isVerified ? (
-                    <span className="text-indigo-600 font-bold flex items-center gap-1">
-                      <ShieldCheck className="w-3.5 h-3.5" /> Verified
+                    <span className="text-[#315C4C] font-semibold flex items-center gap-1">
+                      <ShieldCheck className="w-3.5 h-3.5 text-[#315C4C]" /> Verified
                     </span>
                   ) : (
-                    <span className="text-slate-400">Unverified</span>
+                    <span className="text-[#737B74]">Unverified</span>
                   )}
                 </td>
                 <td className="py-3.5 px-4 text-right">
                   <Button
                     onClick={() => handleToggleVerify(l._id)}
-                    variant={l.isVerified ? 'secondary' : 'primary'}
+                    variant={l.isVerified ? 'outline' : 'primary'}
                     size="sm"
-                    className="text-xs"
+                    className="text-xs py-1 px-2.5 h-auto"
                   >
                     {l.isVerified ? 'Unverify' : 'Mark Verified'}
                   </Button>

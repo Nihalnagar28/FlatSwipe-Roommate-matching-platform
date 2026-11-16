@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Tabs = ({ tabs = [], activeTab, onChange, className = '' }) => {
   return (
-    <div className={`flex border-b border-slate-200 space-x-8 ${className}`}>
+    <div className={`border-b border-[#E5E7E2] flex gap-0 ${className}`}>
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         return (
@@ -10,10 +10,10 @@ export const Tabs = ({ tabs = [], activeTab, onChange, className = '' }) => {
             key={tab.id}
             type="button"
             onClick={() => onChange(tab.id)}
-            className={`py-3.5 px-1 inline-flex items-center gap-2 border-b-2 font-medium text-sm whitespace-nowrap transition-colors duration-150 relative ${
+            className={`px-4 py-2.5 inline-flex items-center gap-2 text-sm font-medium transition-colors cursor-pointer border-b-2 -mb-px whitespace-nowrap ${
               isActive
-                ? 'border-indigo-600 text-indigo-600'
-                : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                ? 'border-[#315C4C] text-[#315C4C]'
+                : 'border-transparent text-[#737B74] hover:text-[#202622]'
             }`}
           >
             {tab.icon && <tab.icon className="w-4 h-4" />}
@@ -22,8 +22,8 @@ export const Tabs = ({ tabs = [], activeTab, onChange, className = '' }) => {
               <span
                 className={`ml-1.5 py-0.5 px-2 rounded-full text-xs font-semibold ${
                   isActive
-                    ? 'bg-indigo-100 text-indigo-700'
-                    : 'bg-slate-100 text-slate-600'
+                    ? 'bg-[#315C4C]/10 text-[#315C4C]'
+                    : 'bg-[#E8EAE3] text-[#737B74]'
                 }`}
               >
                 {tab.count}
